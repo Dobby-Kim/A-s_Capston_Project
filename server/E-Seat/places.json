@@ -1,0 +1,29 @@
+[
+  {
+    "tmp":{ 
+      "seat1" : false 
+    },
+
+    "박상조라운지": {
+    "seat1": true,
+    "seat2": true,
+    "seat3": true,
+    "seat4": true,
+    "seat5": true,
+    "seat6": true,
+    "seat7": true,
+    "seat8": true,
+    "seat9": true,
+    "seat10": true,
+    "seat11": true,
+    "seat12": true,
+    "seat13": true,
+    "seat14": true,
+    "seat15": true,
+    "seat17": true,
+    "seat18": true,
+    "seat19": true,
+    "seat20": true
+    }
+  }
+]
