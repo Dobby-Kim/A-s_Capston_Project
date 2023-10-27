@@ -209,7 +209,7 @@ def run(
                     y2 = y_center_pixel + height_pixel / 2
 
                     point = [int(cls), int(x1), int(y1), int(x2), int(y2)]
-                    print(point)
+                    return(point)
                
 
             # Stream results
