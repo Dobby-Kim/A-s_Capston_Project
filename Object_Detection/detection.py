@@ -151,6 +151,7 @@ def run(
 
         # Process predictions
         for i, det in enumerate(pred):  # per image
+            points = [] 
             seen += 1
             if webcam:  # batch_size >= 1
                 p, im0, frame = path[i], im0s[i].copy(), dataset.count
@@ -197,20 +198,20 @@ def run(
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
-                    x_center_pixel = xywh[0] * w
-                    y_center_pixel = xywh[1] * h
-                    width_pixel = xywh[2] * w
-                    height_pixel = xywh[3] * h
+                    # x_center_pixel = xywh[0] * w
+                    # y_center_pixel = xywh[1] * h
+                    # width_pixel = xywh[2] * w
+                    # height_pixel = xywh[3] * h
 
-                    # 좌상단과 우하단 좌표 계산
-                    x1 = x_center_pixel - width_pixel / 2
-                    y1 = y_center_pixel - height_pixel / 2
-                    x2 = x_center_pixel + width_pixel / 2
-                    y2 = y_center_pixel + height_pixel / 2
+                    # # 좌상단과 우하단 좌표 계산
+                    # x1 = x_center_pixel - width_pixel / 2
+                    # y1 = y_center_pixel - height_pixel / 2
+                    # x2 = x_center_pixel + width_pixel / 2
+                    # y2 = y_center_pixel + height_pixel / 2
 
-                    point = [int(cls), int(x1), int(y1), int(x2), int(y2)]
-                    return(point)
-               
+                    point = [int(cls), xywh]
+                    printf(points)
+
 
             # Stream results
             im0 = annotator.result()
@@ -252,6 +253,7 @@ def run(
         LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}{s}")
     if update:
         strip_optimizer(weights[0])  # update model (to fix SourceChangeWarning)
+
 
 
 def parse_opt():
@@ -298,3 +300,4 @@ def main(opt):
 if __name__ == '__main__':
     opt = parse_opt()
     main(opt)
+
