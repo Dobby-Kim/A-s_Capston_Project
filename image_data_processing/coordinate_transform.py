@@ -18,6 +18,7 @@ label_map = {
 }
 
 # Function to transform normalized coordinates
+#! 사진의 사이즈에 상대적인 비율로 표현된 좌표를 return
 def transform_coordinates_normalized(coordinates, mtrx, src_shape, dst_shape):
     transformed_coordinates = []
     for coord in coordinates:
@@ -40,13 +41,40 @@ def transform_coordinates_normalized(coordinates, mtrx, src_shape, dst_shape):
         
     return np.array(transformed_coordinates)
 
+#! 사진의 사이즈에 절대적인 픽셀값으로 표현된 좌표를 return
+def transform_coordinates_fixed(coordinates, mtrx, src_shape, dst_shape):
+    transformed_coordinates = []
+    for coord in coordinates:
+        # Normalize coordinates according to source image dimensions
+        x_norm, y_norm = coord[0] * src_shape[1], coord[1] * src_shape[0]
+        
+        # Convert to homogeneous coordinates
+        homogeneous_coord = np.array([x_norm, y_norm, 1])
+        
+        # Apply transformation
+        transformed_coord = np.dot(mtrx, homogeneous_coord)
+        
+        # Convert back to 2D coordinates
+        transformed_coord = transformed_coord / transformed_coord[2]
+        
+        # Denormalize according to destination image dimensions
+        x, y = transformed_coord[0], transformed_coord[1]
+        
+        transformed_coordinates.append([x, y])
+        
+    return np.array(transformed_coordinates)
+
 # Function to display transformed coordinates using OpenCV
+# #~ 실제 도면 위의 좌표를 확인하기 위한 사진 생성 함수. 좌표 return과는 관련 없음. admin 확인용
 def display_transformed_coordinates_opencv(image_path, transformed_coordinates, labels, label_map, dst_shape):
     dst_image = cv2.imread(image_path)
     for coord in transformed_coordinates:
+        #^ 정규화된 좌표에 실제 픽셀값 추출 후 그림에 삽입
         x, y = int(coord[0] * dst_shape[1] * 0.95 ), int(coord[1] * dst_shape[0] * 0.87)
         cv2.circle(dst_image, (x, y), 5, (0, 0, 255), -1)
     print(transformed_coordinates)
+    
+
     cv2.imshow('Transformed Coordinates', dst_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -54,16 +82,22 @@ def display_transformed_coordinates_opencv(image_path, transformed_coordinates, 
 # Function to display transformed coordinates using Matplotlib
 def display_transformed_coordinates_matplotlib(image_path, transformed_coordinates, labels, label_map, dst_shape):
     img = mpimg.imread(image_path)
+    
+    #^ 정규화된 좌표에 실제 픽셀값 적용 후 그림에 삽입
     x_coords = [coord[0] * dst_shape[1] * 0.95 for coord in transformed_coordinates]
     y_coords = [coord[1] * dst_shape[0] * 0.87 for coord in transformed_coordinates]
     print(transformed_coordinates)
+    
     plt.imshow(img)
     plt.scatter(x_coords, y_coords, c='red')
     
     for i, label in enumerate(labels):
-        plt.text(x_coords[i], y_coords[i], label_map[label], fontsize=12, ha='right', va='bottom')
+        plt.text(x_coords[i], y_coords[i], label_map[label], fontsize=10, ha='right', va='bottom')
     plt.show()
-
+    
+#~###########################################################
+    
+    
 #!############################# Example Usage #######################################
 H = np.array([[5.60419376e-01, 9.71581689e-01, -3.79450113e+02],
             [-3.39450669e-02, 1.77097300e+00, -2.56173657e+02],
@@ -83,19 +117,20 @@ original_data = [
 original_labels = [item[0] for item in original_data]
 
 
-src_image_path = './largeCoordinate.png'
-dst_image_path = './roomMap.png'
+src_image_path = './img/largeCoordinate.png' 
+dst_image_path = './img/roomMap.png'
 src = cv2.imread(src_image_path, -1)
 dst = cv2.imread(dst_image_path, -1)
 
 #!###################################################################################
 
 src_shape = (src.shape[0] , src.shape[1])
-dst_shape = (dst.shape[1] , dst.shape[0]) 
+dst_shape = (dst.shape[0] , dst.shape[1])
+print(dst_shape)
 
 original_coordinates = np.array([[item[1], item[2]] for item in original_data])
 transformed_coordinates = transform_coordinates_normalized(original_coordinates, H, src_shape, dst_shape)
 
-display_transformed_coordinates_opencv(dst_image_path, transformed_coordinates, original_labels, label_map, dst_shape)
+#display_transformed_coordinates_opencv(dst_image_path, transformed_coordinates, original_labels, label_map, dst_shape)
 display_transformed_coordinates_matplotlib(dst_image_path, transformed_coordinates, original_labels, label_map, dst_shape)
 
