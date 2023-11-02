@@ -106,9 +106,9 @@ psj_lounge_desk = [
 # Collection of space to find with name
 space_dict = {}
 
-psj_lounge_with_chair = chair_area_tl(psj_lounge_desk, 15)
+psj_lounge_with_chair = chair_area_tl(psj_lounge_desk, 20)
 psj_lounge_prop = pixel_to_prop(psj_lounge_with_chair, x_MAX, y_MAX)
 space_dict["psj"] = psj_lounge_prop
 display_seat_OpenCV(dst_image_path, psj_lounge_with_chair)
-print(psj_lounge_prop)
+print(psj_lounge_with_chair)
 #print(psj_lounge_with_chair)

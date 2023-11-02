@@ -13,7 +13,7 @@ def init_space(n):
 def prop_to_pixel(points, width, height):
     points_prop = []
     for point in points:
-        points_prop.append([point[0]*width, point[1]*height])
+        points_prop.append([point[0]*width*0.95, point[1]*height*0.85])
 
     return points_prop
 
@@ -88,8 +88,7 @@ original_data = [
     [63, 0.5094534754753113, 0.5806621313095093, 0.07769571989774704, 0.10930110514163971],
     [24, 0.7100443243980408, 0.1886495053768158, 0.04697193577885628, 0.07882291078567505],
     [0, 0.7590842247009277, 0.2320021092891693, 0.07474150508642197, 0.20861797034740448],
-    [1, 0.4311669170856476, 0.17682605981826782, 0.04224519804120064, 0.05202312022447586],
-    [0, 0.4311669170856476, 0.17682605981826782, 0.04224519804120064, 0.05202312022447586]
+    [1, 0.4311669170856476, 0.17682605981826782, 0.04224519804120064, 0.05202312022447586]
 ]
 original_labels = [item[0] for item in original_data]
 
@@ -102,9 +101,8 @@ trans_coor = [
     [0.511825, 0.69245699],
     [0.83534934, 0.10728809],
     [0.8746065, 0.22739443],
-    [0.37910331, 0.0970473],
     [0.37910331, 0.0970473]
-    ]
+]
 
 # Data from seat_division.py for testing    /// [x1, y1, x2, y2]
 psj = [
@@ -125,7 +123,29 @@ psj = [
     [217, 174, 269, 239],
     [217, 108, 269, 173],
     [270, 174, 330, 239],
-    [270, 108, 330, 173]]
+    [270, 108, 330, 173]
+]
+
+psj2 = [
+    [12, 262, 64, 315],
+    [12, 209, 64, 261],
+    [12, 156, 64, 208],
+    [12, 103, 64, 155],
+    [12, 49, 64, 102],
+    [68, 14, 136, 67],
+    [137, 14, 189, 67],
+    [190, 14, 242, 67],
+    [243, 14, 295, 67],
+    [296, 14, 348, 67],
+    [112, 174, 162, 244],
+    [112, 103, 162, 173],
+    [163, 174, 216, 244],
+    [163, 103, 216, 173],
+    [217, 174, 269, 244],
+    [217, 103, 269, 173],
+    [270, 174, 330, 244],
+    [270, 103, 330, 173]
+]
 
 psj_prop = [
     [0.028985507246376812, 0.8111455108359134, 0.14251207729468598, 0.9752321981424149],
@@ -155,5 +175,6 @@ detected_pixel = prop_to_pixel(trans_coor, x_MAX, y_MAX)
 #seat_occupation(psj_prop, temp1, original_labels, temp)
 #temp2 = seat_occupation(psj_prop, trans_coor, original_labels, temp)
 #print(temp2)
-psj_final = seat_occupation(psj, detected_pixel, original_labels, psj_init)
-display_seat_OpenCV(dst_image_path, psj, detected_pixel, psj_final)
+psj_final = seat_occupation(psj2, detected_pixel, original_labels, psj_init)
+print(psj_final)
+display_seat_OpenCV(dst_image_path, psj2, detected_pixel, psj_final)
