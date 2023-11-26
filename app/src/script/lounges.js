@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { GoPerson } from "react-icons/go";
 import "../style/lounges.css";
+import LoungeData from "../data/lounges.json";
 
+
+
+// Location Component
 const Location = ({ building, address }) => (
   <div className="location">
     <h2 className="building-name">{building}</h2>
@@ -14,36 +19,38 @@ const Location = ({ building, address }) => (
   </div>
 );
 
-const QueueStatus = ({ current, total, className }) => (
+// QueueStatus Component
+const QueueStatus = ({ available, total, className }) => (
   <div className={`queue-status ${className}`}>
     <GoPerson className="person-icon" size={24} />
     <span>
-      {current}/{total}
+      {available}/{total}
     </span>
   </div>
 );
 
+// ActionButton Component
 const ActionButton = ({ onTakeSeat, className }) => (
   <button className={`take-seat-button ${className}`} onClick={onTakeSeat}>
     Take a seat
   </button>
 );
 
-const WaitingCard = ({ list, onTakeSeat }) => {
-  const { current, total } = list.queueStatus;
-  const occupancyRate = (current / total) * 100;
+// WaitingCard Component
+const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
+  const { available, total } = info;
+  const occupancyRate = (available / total) * 100;
   const colorClass =
     occupancyRate >= 80 ? "red" : occupancyRate >= 50 ? "orange" : "";
 
   return (
     <div className="waiting-card">
       <Location
-        building={list.building}
-        address={list.address}
-        floor={list.floor}
+        building={spaceName}
+        address={info.address}
       />
       <div className="status-and-action">
-        <QueueStatus current={current} total={total} className={colorClass} />
+        <QueueStatus available={available} total={total} className={colorClass} />
         <ActionButton onTakeSeat={onTakeSeat} className={colorClass} />
       </div>
     </div>
@@ -52,28 +59,17 @@ const WaitingCard = ({ list, onTakeSeat }) => {
 
 const Lounges = () => {
   let navigate = useNavigate();
-  const [waitingLists, setWaitingLists] = useState([
-    {
-      building: "ParkSangJo Lounge",
-      address: "Engineering Building 2, Floor 1",
-      queueStatus: { current: 3, total: 18 },
-    },
-    {
-      building: "Haedong 1",
-      address: "Engineering Building 1, Floor 1",
-      queueStatus: { current: 45, total: 48 },
-    },
-    {
-      building: "Haedong 2",
-      address: "Engineering Building 1, Floor B1",
-      queueStatus: { current: 42, total: 80 },
-    },
-    {
-      building: "Engineering Library",
-      address: "Engineering Building 2, Floor B1",
-      queueStatus: { current: 6, total: 70 },
-    },
-  ]);
+  const [waitingLists, setWaitingLists] = useState([]);
+
+  useEffect(() => {
+    // JSON 데이터가 배열 안에 객체 형태로 되어 있으므로 첫 번째 요소만 사용합니다.
+    const loungeDataObject = LoungeData[0];
+    const lists = Object.keys(loungeDataObject).map(key => ({
+      spaceName: key,
+      info: loungeDataObject[key]
+    }));
+    setWaitingLists(lists);
+  }, []);
 
   const handleTakeSeat = () => {
     navigate("/lounge");
@@ -82,7 +78,7 @@ const Lounges = () => {
   return (
     <div className="waiting-list-interface">
       {waitingLists.map((list, index) => (
-        <WaitingCard key={index} list={list} onTakeSeat={handleTakeSeat} />
+        <WaitingCard key={index} spaceName={list.spaceName} info={list.info} onTakeSeat={handleTakeSeat} />
       ))}
     </div>
   );
