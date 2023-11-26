@@ -66,7 +66,7 @@ const Lounge = () => {
 
   // JSON 파일에서 데이터 로드
   useEffect(() => {
-    const loungeSeats = placeData[0]["박상조라운지"];
+    const loungeSeats = placeData[0]["parksangjo"];
     setSeatInfo(loungeSeats);
   }, []);
 
