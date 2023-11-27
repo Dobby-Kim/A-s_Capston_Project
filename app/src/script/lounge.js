@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from 'react-responsive';
 import placeData from "../data/places.json";
-
 import "../style/lounge.css";
 import { IoPersonOutline } from "react-icons/io5";
 import { LuMapPin } from "react-icons/lu";
+import { ReactComponent as SeatIcon } from '../img/seat.svg';
 
 const Header = ({ available, reserved, occupied }) => {
   const totalSeats = available + reserved + occupied;
@@ -46,6 +47,10 @@ const Lounge = () => {
   const [placeName, setPlaceName] = useState("");
   const [seatInfo, setSeatInfo] = useState({});
 
+  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
+  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
+  const isPortrait = useMediaQuery({ orientation: 'portrait' });
+
   const load = async (placeName) => {
     try {
       const response = await fetch(
@@ -72,42 +77,86 @@ const Lounge = () => {
 
   const renderSeatRows = () => {
     const seatLayout = [
-      ["seat1", "seat2", "seat3", "seat4", "seat5", "empty"],
-      ["empty", "empty", "empty", "empty", "empty", "seat6"],
-      ["empty", "empty", "seat11", "seat12", "empty", "seat7"],
-      ["empty", "empty", "seat13", "seat14", "empty", "seat8"],
-      ["empty", "empty", "seat15", "seat16", "empty", "seat9"],
-      ["empty", "empty", "seat17", "seat18", "empty", "seat10"],
+      [{ id: 'empty' },
+       { id: 'empty' },
+       { id: 'seat6', chairPosition: 'below' },
+       { id: 'seat7', chairPosition: 'below' },
+       { id: 'seat8', chairPosition: 'below' },
+       { id: 'seat9', chairPosition: 'below' },
+       { id: 'seat10', chairPosition: 'below' }],
+      [{ id: 'seat5', chairPosition: 'right' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' }],
+      [{ id: 'seat4', chairPosition: 'right' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' }],
+       [{ id: 'seat3', chairPosition: 'right' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'seat12', chairPosition: 'up' },
+       { id: 'seat14', chairPosition: 'up' },
+       { id: 'seat16', chairPosition: 'up' },
+       { id: 'seat18', chairPosition: 'up' }],
+      [{ id: 'seat2', chairPosition: 'right' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'seat11', chairPosition: 'below' },
+       { id: 'seat13', chairPosition: 'below' },
+       { id: 'seat15', chairPosition: 'below' },
+       { id: 'seat17', chairPosition: 'below' }],
+      [{ id: 'seat1', chairPosition: 'right' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' },
+       { id: 'empty' }]
     ];
 
-    // 각 좌석 및 빈 자리를 렌더링하는 로직
     return seatLayout.map((row, rowIndex) => (
-      <div className="row" key={`row-${rowIndex}`}>
+      <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
         {row.map((seat, seatIndex) => {
-          const seatNumber = seat.replace("seat", "");
-          const seatStatus = seatInfo[seat];
-          let seatClass = "";
-
+          if (seat.id === 'empty') {
+            return <div className="seat-container empty" key={`empty-${rowIndex}-${seatIndex}`}></div>;
+          }
+  
+          const seatStatus = seatInfo[seat.id];
+          let seatClass = '';
+          let iconClass = '';
+  
           switch (seatStatus) {
             case 0: // empty
-              seatClass = "available";
+              seatClass = 'available';
+              iconClass = 'available';
               break;
             case 1: // reserved
-              seatClass = "reserved";
+              seatClass = 'reserved';
+              iconClass = 'reserved';
               break;
             case 2: // occupied
-              seatClass = "occupied";
+              seatClass = 'occupied';
+              iconClass = 'occupied';
               break;
             default: // unknown
-              seatClass = "unknown";
+              seatClass = 'unknown';
+              iconClass = 'unknown';
           }
-
-          return seat !== "empty" ? (
-            <div className={`seat ${seatClass}`} key={seat}>
-              {seatNumber}
+  
+          return (
+            <div className={`seat-container ${seatClass} ${seat.chairPosition}`} key={`seat-${rowIndex}-${seatIndex}`}>
+              <div className={`seat ${seatClass}`}>
+                {seat.id.replace('seat', '')}
+              </div>
+              <SeatIcon className={`seat-icon ${iconClass}`} />
             </div>
-          ) : (
-            <div className="empty" key={`empty-${rowIndex}-${seatIndex}`}></div>
           );
         })}
       </div>
@@ -126,12 +175,12 @@ const Lounge = () => {
   ).length;
 
   return (
-    <div className="wrapper">
+    <div className={`wrapper ${isTabletOrMobile ? 'mobile' : 'desktop'} ${isPortrait ? 'portrait' : 'landscape'}`}>
       <Header available={available} reserved={reserved} occupied={occupied} />
       <StatusIndicator />
-      {/* <h1 className="title">박상조 라운지</h1> */}
-      {/* <h2 className="title">현재 시각</h2> */}
-      <section className="card">{renderSeatRows()}</section>
+      <section className="card">
+        {renderSeatRows()}
+      </section>
     </div>
   );
 };
