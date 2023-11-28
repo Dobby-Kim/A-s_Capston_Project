@@ -10,4 +10,8 @@ app.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the server!");
+});
+
 export default app;

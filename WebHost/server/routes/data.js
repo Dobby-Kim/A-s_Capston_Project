@@ -89,4 +89,8 @@ router.get("/getSpace", async (req, res) => {
   }
 });
 
+router.get("/", (req, res) => {
+  res.send("Router for Space & Seat Data");
+});
+
 export default router;
