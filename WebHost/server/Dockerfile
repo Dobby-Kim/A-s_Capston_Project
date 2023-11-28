@@ -5,13 +5,13 @@ FROM node:14
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
-COPY server/package*.json ./
+COPY package*.json ./
 
 # Install any dependencies
 RUN npm install
 
 # Copy the rest of your app's source code
-COPY server/ ./
+COPY . ./
 
 # Expose port 3000
 EXPOSE 3000
