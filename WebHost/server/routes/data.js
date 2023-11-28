@@ -1,14 +1,16 @@
+import dotenv from "dotenv";
 import express from "express";
 import sql from "mssql";
 import { getSeats } from "../util/fileUtil.js";
+dotenv.config();
 
 const router = express.Router();
 
 const dbConfig = {
-  user: "dobby",
-  password: "ehduq214!",
-  server: "tmpdatabaseserver.database.windows.net",
-  database: "tmpdatabase",
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  server: process.env.SERVER,
+  database: process.env.DATABASE,
   options: {
     encrypt: true,
     trustServerCertificate: true, // 개발 환경에서만 사용
