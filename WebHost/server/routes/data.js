@@ -1,6 +1,6 @@
 import express from "express";
 import sql from "mssql";
-import { getSeats } from "../utils/fileUtils.js";
+import { getSeats } from "../util/fileUtil.js";
 
 const router = express.Router();
 

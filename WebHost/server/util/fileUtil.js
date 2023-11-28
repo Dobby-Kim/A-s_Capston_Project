@@ -5,7 +5,7 @@ import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const PLACES_FILE = path.join(__dirname, "../places.json");
+//const PLACES_FILE = path.join(__dirname, "../places.json");
 
 export const getPlaces = async () => {
   try {
