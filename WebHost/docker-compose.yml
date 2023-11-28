@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # React App Service
+  react-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  # Node.js Server Service
+  node-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+
+  # nginx Service
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./app/build:/usr/share/nginx/html
+    depends_on:
+      - react-app
+      - node-server
+    networks:
+      - app-network
+
+networks:
+  app-network:

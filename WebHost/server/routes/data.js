@@ -1,14 +1,16 @@
+import dotenv from "dotenv";
 import express from "express";
 import sql from "mssql";
-import { getSeats } from "../utils/fileUtils.js";
+import { getSeats } from "../util/fileUtil.js";
+dotenv.config();
 
 const router = express.Router();
 
 const dbConfig = {
-  user: "dobby",
-  password: "ehduq214!",
-  server: "tmpdatabaseserver.database.windows.net",
-  database: "tmpdatabase",
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  server: process.env.SERVER,
+  database: process.env.DATABASE,
   options: {
     encrypt: true,
     trustServerCertificate: true, // 개발 환경에서만 사용
@@ -59,9 +61,9 @@ router.get("/getSpace", async (req, res) => {
     //쿼리 생성
     const { spaceName } = req.query;
     const query = `
-          SELECT address, available_seat, total_seat 
+          SELECT name, address, available_seat, total_seat 
           FROM SpaceTable 
-          WHERE name = '${spaceName}'`;
+          `;
 
     // 쿼리 실행
     const result = await sql.query(query);
@@ -70,6 +72,7 @@ router.get("/getSpace", async (req, res) => {
     //return format {address: str, available: int, total: int}
     const spaceInfo = result.recordset.map((record) => {
       return {
+        name: record.name,
         address: record.address,
         available: record.available_seat,
         total: record.total_seat,
@@ -87,6 +90,10 @@ router.get("/getSpace", async (req, res) => {
     // 연결 종료
     sql.close();
   }
+});
+
+router.get("/", (req, res) => {
+  res.send("Router for Space & Seat Data");
 });
 
 export default router;
