@@ -1,0 +1,98 @@
+.waiting-list-interface {
+    font-family: 'Arial', sans-serif;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* 자식 요소들을 세로로 나열 */
+    justify-content: center; /* 수직 방향으로 중앙 정렬 */
+    align-items: center; /* 수평 방향으로 중앙 정렬 */
+  }
+  
+  .waiting-card {
+    width: 400px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .waiting-card .location {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #666;
+    text-align: center;
+  }
+  
+  .waiting-card .location .building-name {
+    text-align: left;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .waiting-card .location .address-info {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  
+  .waiting-card .queue-status {
+    margin-left: 1;
+    text-align: left;
+    font-size: 1.2em;
+    color: #28a745;
+  }
+  
+  .waiting-card .take-seat-button{
+    display: block;
+    width: 30%;
+    padding: 10px;
+    font-size: 1em;
+    color: white;
+    margin-left: 0;
+    background-color: #28a745;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+
+  .waiting-card .status-and-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .address-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .location-icon, .person-icon {
+    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+    color: #666;
+  }
+  
+
+/* 주황색 배경 및 흰색 글씨 스타일 */
+.take-seat-button.orange {
+    background-color: orange;
+}
+
+/* 빨간색 배경 및 흰색 글씨 스타일 */
+.take-seat-button.red {
+    background-color: #dc3545;
+}
+
+
+/* 글씨 색상 변경 */
+.queue-status.orange span {
+    color: orange;
+}
+
+.queue-status.red span {
+    color: #dc3545;
+}
+
