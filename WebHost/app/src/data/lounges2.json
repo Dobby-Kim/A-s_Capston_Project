@@ -1,0 +1,26 @@
+[
+  {
+    "name": "ebstudyroom1",
+    "address": "Engineering No.2 Building 26, Floor 1",
+    "available": 2,
+    "total": 8
+  },
+  {
+    "name": "ebstudyroom2",
+    "address": "Engineering No.2 Building 26, Floor 1",
+    "available": 1,
+    "total": 8
+  },
+  {
+    "name": "Kingo Lounge",
+    "address": "Engineering No.2 Building 26, Floor 1",
+    "available": 50,
+    "total": 50
+  },
+  {  
+    "name": "parksangjo",
+    "address": "Engineering No.2 Building 26, Floor 2",
+    "available": 12,
+    "total": 18
+  }
+]

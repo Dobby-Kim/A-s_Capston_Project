@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
+import React, { useState, useEffect } from 'react';
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { GoPerson } from "react-icons/go";
 import "../style/lounges.css";
 import LoungeData from "../data/lounges.json";
+import LoungeData2 from "../data/lounges2.json";
 
 // Get Data
-async function fetchLoungeData() {
+async function fetchLoungesData() {
   const response = await fetch("/data/getSpace/");
   const data = response.json();
   return data;
@@ -49,13 +51,12 @@ const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
 
   return (
     <div className="waiting-card">
-      <Location building={spaceName} address={info.address} />
+      <Location
+        building={spaceName}
+        address={info.address}
+      />
       <div className="status-and-action">
-        <QueueStatus
-          available={available}
-          total={total}
-          className={colorClass}
-        />
+        <QueueStatus available={available} total={total} className={colorClass} />
         <ActionButton onTakeSeat={onTakeSeat} className={colorClass} />
       </div>
     </div>
@@ -63,20 +64,30 @@ const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
 };
 
 const Lounges = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [waitingLists, setWaitingLists] = useState([]);
 
-  // const getLoungeData = async () => {
-  //   const res = await fetch("/data/getSpace/").then((res) => res.json);
-  // };
-
-  //console.log(getLoungeData);
-
+  // Json으로 테스트하기 위해서
   useEffect(() => {
+    const loungeDataObject = LoungeData2;
+    const lists = loungeDataObject.map((lounge) => ({
+      spaceName: lounge.name,
+      info: {
+        address: lounge.address,
+        available: lounge.available,
+        total: lounge.total,
+      }
+    }));
+
+    setWaitingLists(lists);
+  }, []);
+
+  // Server 연결 시 사용
+  /*useEffect(() => {
     const fetchData = async () => {
       try {
-        const temp = await fetchLoungeData();
-        console.log(temp);
+        const temp = await fetchLoungesData();
+        //console.log(temp);
 
         const lists = temp.map((lounge) => ({
           spaceName: lounge.name,
@@ -94,21 +105,19 @@ const Lounges = () => {
     };
 
     fetchData();
-  }, []);
+  }, []);*/
 
-  const handleTakeSeat = () => {
-    navigate("/lounge");
+  const handleTakeSeat = ({spaceName}) => {
+    navigate({
+      pathname: "/lounge",
+      search: createSearchParams({placeName:spaceName}).toString()
+    })
   };
 
   return (
     <div className="waiting-list-interface">
       {waitingLists.map((list, index) => (
-        <WaitingCard
-          key={index}
-          spaceName={list.spaceName}
-          info={list.info}
-          onTakeSeat={handleTakeSeat}
-        />
+        <WaitingCard key={index} spaceName={list.spaceName} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
       ))}
     </div>
   );

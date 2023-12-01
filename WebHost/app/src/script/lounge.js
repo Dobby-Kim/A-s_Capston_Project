@@ -1,20 +1,54 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
+import { useLocation } from "react-router-dom";
 import placeData from "../data/places.json";
+import loungeData from "../data/lounges2.json"
+import placeData2 from "../data/places2.json"
 import "../style/lounge.css";
 import { IoPersonOutline } from "react-icons/io5";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
 
+// Get space name
+const GetSpace = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const placeName = queryParams.get('placeName');
+  return placeName;
+}
+
+// Get one space data
+async function fetchLoungeData(placeName) {
+  const response = await fetch(`/data/getSeats?placeName=${encodeURIComponent(placeName)}`);
+  const data = response.json();
+  return data;
+}
+
+// Get space list Data
+const findAddress = async (name) => {
+  const response = await fetch("/data/getSpace/");
+  const data = response.json();
+  const result = data.find(item => item.name === name);
+  return result ? result.address : null;
+}
+
+// Just for offline testing
+const findAddTemp = (name) => {
+  const result = loungeData.find(item => item.name === name);
+  return result ? result.address : null;
+}
+
 const Header = ({ available, reserved, occupied }) => {
   const totalSeats = available + reserved + occupied;
+  const temp = findAddTemp(GetSpace()); // This is from JSon
+  //const add = findAddress(GetSpace()); // This would be the actual
 
   return (
     <header className="header">
-      <h1>ParkSangJo</h1>
+      <h1>{GetSpace()}</h1>
       <div className="header-info">
         <LuMapPin className="icon map" size="21" />
-        <p className="num-text">Engineering Building 2, Floor 1</p>
+        <p className="num-text">{temp}</p>
       </div>
       <div className="header-info seat-status">
         <IoPersonOutline className="icon person" size="23" />
@@ -51,7 +85,7 @@ const Lounge = () => {
   const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
   const isPortrait = useMediaQuery({ orientation: 'portrait' });
 
-  const load = async (placeName) => {
+  /*const load = async (placeName) => {
     try {
       const response = await fetch(
         `/seat?placeName=${encodeURIComponent(placeName)}`
@@ -73,10 +107,34 @@ const Lounge = () => {
   useEffect(() => {
     const loungeSeats = placeData[0]["parksangjo"];
     setSeatInfo(loungeSeats);
+  }, []);*/
+
+
+  ///////// 여기 밑으로가 추가 사항입니다 //////// 
+
+  // Server 에서 로드하기 - 박재윤
+  /*useEffect(() => {
+    const fetchData = async() => {
+      try {
+        const temp = await fetchLoungeData(GetSpace());
+        console.log(temp);
+      } catch (error) {
+        console.error("Error fetching lounge data:", error);
+      }
+    }
+    const data = fetchData();
+    const loungeSeats = data[0]; // If not working try this
+    setSeatInfo(data);
+  }, []);*/
+
+  // Json에서 로드하기 - 박재윤
+  useEffect(() => {
+    const loungeSeats = placeData2[0];
+    setSeatInfo(loungeSeats);
   }, []);
 
   const renderSeatRows = () => {
-    const seatLayout = [
+    /*const seatLayout = [
       [{ id: 'empty' },
        { id: 'empty' },
        { id: 'seat6', chairPosition: 'below' },
@@ -119,9 +177,60 @@ const Lounge = () => {
        { id: 'empty' },
        { id: 'empty' },
        { id: 'empty' }]
+    ];*/
+
+    const seatLayout2 = [
+      [
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: '6', chairPosition: 'below' },
+        { id: '7', chairPosition: 'below' },
+        { id: '8', chairPosition: 'below' },
+        { id: '9', chairPosition: 'below' },
+        { id: '10', chairPosition: 'below' }],
+      [
+        { id: '5', chairPosition: 'right' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' }],
+      [
+        { id: '4', chairPosition: 'right' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' }],
+      [
+        { id: '3', chairPosition: 'right' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: '12', chairPosition: 'up' },
+        { id: '14', chairPosition: 'up' },
+        { id: '16', chairPosition: 'up' },
+        { id: '18', chairPosition: 'up' }],
+      [
+        { id: '2', chairPosition: 'right' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: '11', chairPosition: 'below' },
+        { id: '13', chairPosition: 'below' },
+        { id: '15', chairPosition: 'below' },
+        { id: '17', chairPosition: 'below' }],
+      [
+        { id: '1', chairPosition: 'right' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' }]
     ];
 
-    return seatLayout.map((row, rowIndex) => (
+    return seatLayout2.map((row, rowIndex) => (
       <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
         {row.map((seat, seatIndex) => {
           if (seat.id === 'empty') {
@@ -186,9 +295,3 @@ const Lounge = () => {
 };
 
 export default Lounge;
-
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//   <React.StrictMode>
-//     <Lounge />
-//   </React.StrictMode>
-// );
