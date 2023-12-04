@@ -10,15 +10,16 @@ import "../style/info.css";
 
 const LoungeCards = () => {
   return (
-    <div>
+    <div className='container'>
       {info.map((lounge) => (
-        <Card key={lounge.key} sx={{ maxWidth: 400, height: 400, marginBottom: 10 }} className='card'>
+        // 카드 height 300으로 고정
+        <Card key={lounge.key} sx={{ maxWidth: 400, height: 300 }} className='card'> 
           <CardActionArea>
             <CardMedia
               component="img"
               alt={lounge.name}
               image={img}
-              sx={{ height: 200, objectFit: 'cover' }} // 이미지 크기와 스타일 설정
+              sx={{ height: 200, objectFit: 'cover' }} // 사진 크기 200으로 고정
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
