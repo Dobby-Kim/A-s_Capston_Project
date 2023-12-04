@@ -6,7 +6,7 @@ import { PiChairLight } from "react-icons/pi";
 import "../style/lounges.css";
 import LoungeData from "../data/lounges.json";
 import LoungeData2 from "../data/lounges2.json";
-import Nav3 from "../script/nav"
+import Nav from "./nav"
 
 // Get Data
 async function fetchLoungesData() {
@@ -46,7 +46,7 @@ const ActionButton = ({ onTakeSeat, className }) => (
 // WaitingCard Component
 const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
   const { available, total } = info;
-  const occupancyRate = (available / total) * 100; 
+  const occupancyRate = (available / total) * 100;
   const colorClass =
     occupancyRate <= 20 ? "red" : occupancyRate <= 50 ? "orange" : "";
 
@@ -111,7 +111,7 @@ const Lounges = () => {
   const handleTakeSeat = ({spaceName}) => {
     navigate({
       pathname: "/lounge",
-      search: createSearchParams({placeName:spaceName}).toString()
+      search: createSearchParams({spaceName:spaceName}).toString()
     })
   };
 
@@ -120,7 +120,6 @@ const Lounges = () => {
       {waitingLists.map((list, index) => (
         <WaitingCard key={index} spaceName={list.spaceName} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
       ))}
-      <Nav3/>
     </div>
   );
 };

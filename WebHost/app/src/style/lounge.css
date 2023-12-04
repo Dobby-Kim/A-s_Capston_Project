@@ -16,7 +16,7 @@
 .header h1 {
   font-size: 2rem;
   margin-bottom: -1rem; 
-  width: 100%;
+  width: 100%;  
   text-align: center;
 }
 
@@ -186,11 +186,11 @@
 }
 
 .wrapper {
+  max-width: 60rem;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
   padding: 1vw;
-  min-width: 100%;
   min-height: 100vh;
   margin: auto;
   text-align: center;
