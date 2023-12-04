@@ -1,7 +1,7 @@
 import * as React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import InfoIcon from '@mui/icons-material/Info';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import "../style/nav.css"
 
@@ -17,15 +17,15 @@ const LabelBottomNavigation = () => {
         <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
 
         <BottomNavigationAction
-            label="Nearby"
-            value="nearby"
+            label="Spaces"
+            value="Spaces"
             icon={<LocationOnIcon />}
         />
         
         <BottomNavigationAction
-            label="Favorites"
-            value="favorites"
-            icon={<FavoriteIcon />}
+            label="Description"
+            value="Description"
+            icon={<InfoIcon />}
         />
         
         </BottomNavigation>
