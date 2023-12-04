@@ -31,9 +31,9 @@ label_list = list(label_map.keys())
 
 def main(original_data):
     # matrix
-    H = np.array([[5.60419376e-01, 9.71581689e-01, -3.79450113e+02],
-        [-3.39450669e-02, 1.77097300e+00, -2.56173657e+02],
-        [-1.75642895e-04, 4.53427216e-03, 1.00000000e+00]])
+    H = np.array([[ 2.34585654e-01,  3.73154005e-01, -1.25135187e+02],
+ [-1.03977454e-03, 6.72480183e-01, -1.16370402e+02],
+ [-2.07658142e-05, 1.61019499e-03,  1.00000000e+00]])
     
     space_name = "parksangjo"
     
@@ -81,10 +81,10 @@ def main(original_data):
 
     
     # 2) coordiates transformation
-    src = cv2.imread(src_image_path, -1)
+    #src = cv2.imread(src_image_path, -1)
     dst = cv2.imread(dst_image_path, -1)
 
-    src_shape = (1920, 1080) # fixed
+    src_shape = (2560, 1440) # fixed
     dst_shape = (dst.shape[1] , dst.shape[0])
 
     original_coordinates = np.array([[item[1], item[2]] for item in original_data])
@@ -109,11 +109,11 @@ def main(original_data):
 
 
 if __name__ == "__main__":
-    video_path = "rtsp://admin:ehduq214@220.78.3.204:554/stream1"
+    video_path = "rtsp://admin:ehduq214@172.20.10.4:554/stream1"
     frame_interval = 60
 
     default_opts = parse_opt()  # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
-    custom_opts = {'weights': 'yolov5x.pt', 'source': './img/psj.jpeg', 'classes': label_list}
+    custom_opts = {'weights': 'yolov5x.pt', 'source': video_path, 'classes': label_list}
     combined_opts = vars(default_opts)
     combined_opts.update(custom_opts)
     opt = Namespace(**combined_opts)
