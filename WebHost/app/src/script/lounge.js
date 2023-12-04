@@ -13,14 +13,14 @@ import { ReactComponent as SeatIcon } from '../img/seat.svg';
 const GetSpace = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const placeName = queryParams.get('placeName');
+  const placeName = queryParams.get('spaceName');
   return placeName;
 }
 
 // Get one space data
-async function fetchLoungeData(placeName) {
-  const response = await fetch(`/data/getSeats?placeName=${encodeURIComponent(placeName)}`);
-  const data = response.json();
+async function fetchLoungeData(spaceName) {
+  const response = await fetch(`/data/getSeats?spaceName=${encodeURIComponent(spaceName)}`);
+  const data = await response.json();
   return data;
 }
 
