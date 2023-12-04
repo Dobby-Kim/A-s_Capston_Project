@@ -21,7 +21,7 @@ const LabelBottomNavigation = () => {
         <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
           {[
             { label: 'Spaces', value: '/lounges', icon: <LocationOnIcon /> },
-            { label: 'Description', value: '/description', icon: <InfoIcon /> },
+            { label: 'Description', value: '/info', icon: <InfoIcon /> },
             // Add more items as needed
           ].map((navItem) => (
             <BottomNavigationAction
