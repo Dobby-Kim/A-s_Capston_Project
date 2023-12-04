@@ -5,10 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import info from '../data/info.json'; 
-import img from "../img/black.png";
 import "../style/info.css";
 
 const LoungeCards = () => {
+
   return (
     <div className='container'>
       {info.map((lounge) => (
@@ -18,7 +18,7 @@ const LoungeCards = () => {
             <CardMedia
               component="img"
               alt={lounge.name}
-              image={img}
+              image={`/img/${lounge.img}`}
               sx={{ height: 200, objectFit: 'cover' }} // 사진 크기 200으로 고정
             />
             <CardContent>

@@ -2,21 +2,25 @@
     {
       "key": "parksangjo",
       "name": "ParkSangJo Lounge",
-      "description": "박상조박상조박상조박상조박상조"
+      "description": "박상조박상조박상조박상조박상조",
+      "img": "psj.jpeg"
     },
     {
         "key": "haedong1",
         "name": "Haedong 1",
-        "description": "해동해동해동해동해동1"
+        "description": "해동해동해동해동해동1",
+        "img": "black.png"
       },
       {
         "key": "haedong2",
         "name": "Haedong 2",
-        "description": "해동해동해동해동해동2"
+        "description": "해동해동해동해동해동2",
+        "img": "psj.jpeg"
       },
       {
         "key": "engineering_library",
         "name": "Engineering Library",
-        "description": "공열공열공열공열공열"
+        "description": "공열공열공열공열공열",
+        "img": "black.png"
       }
   ]
