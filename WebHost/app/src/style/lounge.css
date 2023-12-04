@@ -68,16 +68,23 @@
   margin-right: 10px; 
 }
 
+.person-icon {
+  stroke-width: 0.3rem; 
+}
+
 .status-dot.available {
   background-color: #28a745; 
+  border: 1.5px solid #666; 
 }
 
 .status-dot.reserved {
   background-color: #ffc107; 
+  border: 1.5px solid #666; 
 }
 
 .status-dot.occupied {
   background-color: #dc3545;
+  border: 1.5px solid #666; 
 }
 
 .status-text {
@@ -108,9 +115,9 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  width: 2.1rem; 
-  height: 2.1rem; 
-  margin: 0; 
+  width: 2rem; 
+  height: 2rem; 
+  margin: 3px; 
 }
 
 .seat {
@@ -136,10 +143,12 @@
 
 .seat.reserved {
   background-color: #ffc107; 
+  border: 1.5px solid #666; 
 }
 
 .seat.occupied {
   background-color: #dc3545;
+  border: 1.5px solid #666; 
 }
 
 .seat.unknown {
@@ -147,33 +156,33 @@
 }
 
 .seat-icon {
-  width: 1.3rem;
-  height: 1.3rem;
+  width: 1.7rem;
+  height: 1.7rem;
   fill: currentColor;
   stroke-width: 0.4vw;
 }
 
 .seat-container.below .seat-icon {
   position: absolute;
-  bottom: -1.5rem; 
+  bottom: -1.9rem; 
   transform: rotate(180deg);
 }
 
 .seat-container.right .seat-icon {
   position: absolute;
-  right: -1.5rem; 
+  right: -1.9rem; 
   transform: rotate(90deg);
 }
 
 .seat-container.left .seat-icon {
   position: absolute;
-  left: -1.5rem; 
+  left: -1.9rem; 
   transform: rotate(270deg);
 }
 
 .seat-container.up .seat-icon {
   position: absolute;
-  top: -1.5rem; 
+  top: -1.9rem; 
 }
 
 .wrapper {
@@ -220,9 +229,13 @@
   }
 
   .seat, .empty {
-    min-width: 1.8rem;
-    min-height: 1.8rem;
+    min-width: 2rem;
+    min-height: 2rem;
     font-size: 0.8rem;
+  }
+
+  .seat {
+    border: 1.5px solid #666; 
   }
 
   .card {
@@ -231,8 +244,8 @@
   }
 
   .wrapper {
-    min-width: 15rem;
-    min-height: 15rem;
+    max-width: 50rem;
+    max-height: 50rem;
   }
 }
 
@@ -262,6 +275,10 @@
     min-width: 1.8rem;
     min-height: 1.8rem;
     font-size: 0.8rem;
+  }
+
+  .seat {
+    border: 1.5px solid #666; 
   }
 
   .seat-container {

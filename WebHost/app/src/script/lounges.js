@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { MdOutlineLocationOn } from "react-icons/md";
-import { GoPerson } from "react-icons/go";
+import { PiChairLight } from "react-icons/pi";
 import "../style/lounges.css";
 import LoungeData from "../data/lounges.json";
 import LoungeData2 from "../data/lounges2.json";
@@ -29,7 +29,7 @@ const Location = ({ building, address }) => (
 // QueueStatus Component
 const QueueStatus = ({ available, total, className }) => (
   <div className={`queue-status ${className}`}>
-    <GoPerson className="person-icon" size={24} />
+    <PiChairLight className="person-icon" size={24} />
     <span>
       {available}/{total}
     </span>
@@ -46,9 +46,9 @@ const ActionButton = ({ onTakeSeat, className }) => (
 // WaitingCard Component
 const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
   const { available, total } = info;
-  const occupancyRate = (available / total) * 100;
+  const occupancyRate = (available / total) * 100; 
   const colorClass =
-    occupancyRate >= 80 ? "red" : occupancyRate >= 50 ? "orange" : "";
+    occupancyRate <= 20 ? "red" : occupancyRate <= 50 ? "orange" : "";
 
   return (
     <div className="waiting-card">

@@ -5,7 +5,7 @@ import placeData from "../data/places.json";
 import loungeData from "../data/lounges2.json"
 import placeData2 from "../data/places2.json"
 import "../style/lounge.css";
-import { IoPersonOutline } from "react-icons/io5";
+import { PiChairLight } from "react-icons/pi";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
 
@@ -51,7 +51,7 @@ const Header = ({ available, reserved, occupied }) => {
         <p className="num-text">{temp}</p>
       </div>
       <div className="header-info seat-status">
-        <IoPersonOutline className="icon person" size="23" />
+        <PiChairLight className="person-icon" size="28" />
         <span className="num-text">{`${available}/${totalSeats} `}</span>
       </div>
     </header>
