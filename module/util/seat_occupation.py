@@ -13,7 +13,7 @@ def init_space(n):
 def prop_to_pixel(points, width, height):
     points_prop = []
     for point in points:
-        points_prop.append([point[0]*height*0.95, point[1]*width*0.85]) # fixed
+        points_prop.append([point[0]*height*0.97, point[1]*width]) # fixed
 
     return points_prop
 
