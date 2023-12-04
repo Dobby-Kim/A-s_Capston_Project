@@ -6,6 +6,7 @@ import { GoPerson } from "react-icons/go";
 import "../style/lounges.css";
 import LoungeData from "../data/lounges.json";
 import LoungeData2 from "../data/lounges2.json";
+import Nav3 from "../script/nav"
 
 // Get Data
 async function fetchLoungesData() {
@@ -119,6 +120,7 @@ const Lounges = () => {
       {waitingLists.map((list, index) => (
         <WaitingCard key={index} spaceName={list.spaceName} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
       ))}
+      <Nav3/>
     </div>
   );
 };
