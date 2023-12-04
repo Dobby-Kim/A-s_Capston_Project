@@ -22,7 +22,6 @@ const LabelBottomNavigation = () => {
           {[
             { label: 'Spaces', value: '/lounges', icon: <LocationOnIcon /> },
             { label: 'Description', value: '/info', icon: <InfoIcon /> },
-            // Add more items as needed
           ].map((navItem) => (
             <BottomNavigationAction
               key={navItem.value}
