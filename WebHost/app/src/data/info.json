@@ -1,0 +1,22 @@
+  [
+    {
+      "key": "parksangjo",
+      "name": "ParkSangJo Lounge",
+      "description": "박상조박상조박상조박상조박상조"
+    },
+    {
+        "key": "haedong1",
+        "name": "Haedong 1",
+        "description": "해동해동해동해동해동1"
+      },
+      {
+        "key": "haedong2",
+        "name": "Haedong 2",
+        "description": "해동해동해동해동해동2"
+      },
+      {
+        "key": "engineering_library",
+        "name": "Engineering Library",
+        "description": "공열공열공열공열공열"
+      }
+  ]
