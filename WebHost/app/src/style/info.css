@@ -1,0 +1,11 @@
+.card {
+    border: 1px solid;
+    padding: 10px;
+    margin: 5px;
+    justify-content: space-between;
+}
+
+.skku-image {
+    height: 50px;
+    max-width: 100%;
+  }
