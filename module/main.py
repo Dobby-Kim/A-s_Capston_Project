@@ -3,7 +3,7 @@ from yolov5 import detection
 from util import seat_division
 from util import seat_jsonify
 from util import seat_occupation
-from util import updateDatabase
+#from util import updateDatabase
 from util import seat_jsonify
 
 import numpy as np
@@ -100,20 +100,21 @@ def main(original_data):
     detected_pixel = seat_occupation.prop_to_pixel(transformed_coordinates, dst.shape[1], dst.shape[0])
     occupation_final = seat_occupation.seat_occupation(divided, detected_pixel, original_labels, space_init)
 
-    seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
+    #seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
 
     # 5) jsonify
     # 아래의 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
-    updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
+    #updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
     print(seat_jsonify.list_db_js(space_name, occupation_final))
 
 
 if __name__ == "__main__":
-    video_path = "rtsp://admin:ehduq214@172.20.10.4:554/stream1"
+    #video_path = "rtsp://admin:ehduq214@172.20.10.4:554/stream1"
+    video_path = "./test.mp4"
     frame_interval = 60
 
     default_opts = parse_opt()  # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
-    custom_opts = {'weights': 'yolov5x.pt', 'source': video_path, 'classes': label_list}
+    custom_opts = {'weights': 'yolov5x.pt', 'source': './test.mp4', 'classes': label_list}
     combined_opts = vars(default_opts)
     combined_opts.update(custom_opts)
     opt = Namespace(**combined_opts)
