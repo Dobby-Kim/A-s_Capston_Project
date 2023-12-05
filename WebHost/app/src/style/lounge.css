@@ -117,7 +117,7 @@
   justify-content: center;
   width: 2rem; 
   height: 2rem; 
-  margin: 3px; 
+  margin: 0; 
 }
 
 .seat {
@@ -153,6 +153,10 @@
 
 .seat.unknown {
   background-color: #d3d3d3; 
+}
+
+.sofa-icon {
+  fill: currentColor;
 }
 
 .seat-icon {

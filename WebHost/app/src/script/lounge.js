@@ -9,6 +9,7 @@ import { PiChairLight } from "react-icons/pi";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
 
+
 // Get space name
 const GetSpace = () => {
   const location = useLocation();
@@ -134,6 +135,9 @@ const Lounge = () => {
   }, []);
 
   const renderSeatRows = () => {
+    const spaceName = GetSpace(); 
+    let layout;
+
     /*const seatLayout = [
       [{ id: 'empty' },
        { id: 'empty' },
@@ -179,58 +183,208 @@ const Lounge = () => {
        { id: 'empty' }]
     ];*/
 
-    const seatLayout2 = [
-      [
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '6', chairPosition: 'below' },
-        { id: '7', chairPosition: 'below' },
-        { id: '8', chairPosition: 'below' },
-        { id: '9', chairPosition: 'below' },
-        { id: '10', chairPosition: 'below' }],
-      [
-        { id: '5', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }],
-      [
-        { id: '4', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }],
-      [
-        { id: '3', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '12', chairPosition: 'up' },
-        { id: '14', chairPosition: 'up' },
-        { id: '16', chairPosition: 'up' },
-        { id: '18', chairPosition: 'up' }],
-      [
-        { id: '2', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '11', chairPosition: 'below' },
-        { id: '13', chairPosition: 'below' },
-        { id: '15', chairPosition: 'below' },
-        { id: '17', chairPosition: 'below' }],
-      [
-        { id: '1', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }]
-    ];
+    if (spaceName === 'parksangjo') {
+      layout = [
+        [
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '6', chairPosition: 'below' },
+          { id: '7', chairPosition: 'below' },
+          { id: '8', chairPosition: 'below' },
+          { id: '9', chairPosition: 'below' },
+          { id: '10', chairPosition: 'below' }],
+        [
+          { id: '5', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
+        [
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
+        [
+          { id: '3', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '12', chairPosition: 'up' },
+          { id: '14', chairPosition: 'up' },
+          { id: '16', chairPosition: 'up' },
+          { id: '18', chairPosition: 'up' }],
+        [
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '11', chairPosition: 'below' },
+          { id: '13', chairPosition: 'below' },
+          { id: '15', chairPosition: 'below' },
+          { id: '17', chairPosition: 'below' }],
+        [
+          { id: '1', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }]
+      ];
+    } else if (spaceName === 'ebstudyroom1') {
+      layout = [
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'left' },
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left' },
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '5', chairPosition: 'left' },
+          { id: '6', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '7', chairPosition: 'left' },
+          { id: '8', chairPosition: 'right' },
+          { id: 'empty' }]
+      ];
+    } else if (spaceName === 'haedong') {
+      layout = [
+        [
+          { id: '1', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '2', chairPosition: 'left' },
+          { id: '3', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '4', chairPosition: 'left' },
+          { id: '5', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '6', chairPosition: 'left' },
+          { id: '7', chairPosition: 'right' }],
 
-    return seatLayout2.map((row, rowIndex) => (
+          [
+            { id: '8', chairPosition: 'right' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '9', chairPosition: 'left' },
+            { id: '10', chairPosition: 'right' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '11', chairPosition: 'left' },
+            { id: '12', chairPosition: 'right' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '13', chairPosition: 'left' },
+            { id: '14', chairPosition: 'right' }],
+
+            [
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },],
+            [
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },],
+          [
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '15', chairPosition: 'up' },
+            { id: '16', chairPosition: 'up' },
+            { id: '17', chairPosition: 'up' },
+            { id: '18', chairPosition: 'up' },
+            { id: '19', chairPosition: 'up' },
+            { id: '20', chairPosition: 'up' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },],
+            [
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: '21', chairPosition: 'below' },
+              { id: '22', chairPosition: 'below' },
+              { id: '23', chairPosition: 'below' },
+              { id: '24', chairPosition: 'below' },
+              { id: '25', chairPosition: 'below' },
+              { id: '26', chairPosition: 'below' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },],
+
+              [
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },],
+      ];
+    } else {
+      layout = [
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'left' },
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left' },
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '5', chairPosition: 'left' },
+          { id: '6', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '7', chairPosition: 'left' },
+          { id: '8', chairPosition: 'right' },
+          { id: 'empty' }]
+      ];
+    }
+
+    return layout.map((row, rowIndex) => (
       <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
         {row.map((seat, seatIndex) => {
           if (seat.id === 'empty') {

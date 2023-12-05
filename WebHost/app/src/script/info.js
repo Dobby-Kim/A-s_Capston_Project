@@ -30,27 +30,29 @@ const LoungeCards = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='img_container'>
       {info.map((lounge) => (
         <Card 
           key={lounge.key} 
-          sx={{ maxWidth: 400, height: 300, position: 'relative' }} 
-          className='card'
+          className='each_card'
           onClick={() => handleCardClick(lounge.key)}
         >
           <CardActionArea>
             <CardMedia
+              className='card_img'
               component="img"
               alt={lounge.name}
               image={`/img/${lounge.img}`}
-              sx={{ height: 200, objectFit: 'cover' }}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography gutterBottom variant="h5" component="div" fontWeight= 'bold'>
                 {lounge.name}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {lounge.description}
+              <Typography variant="body2" color="text.secondary" >
+                {lounge.description1}
+              </Typography>
+              <Typography variant="body2" color="green" >
+                {lounge.description2}
               </Typography>
             </CardContent>
             

@@ -5,8 +5,8 @@
         "available": 3,
         "total": 18
       },
-      "Haedong 1": {
-        "address": "Engineering Building 1, Floor 1",
+      "Haedong": {
+        "address": "Engineering Building 1, Floor 2",
         "available": 45,
         "total": 48
       },
@@ -22,3 +22,4 @@
       }
     }
   ]
+

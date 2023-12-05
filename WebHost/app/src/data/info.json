@@ -2,25 +2,29 @@
     {
       "key": "parksangjo",
       "name": "ParkSangJo Lounge",
-      "description": "박상조박상조박상조박상조박상조",
+      "description1": "A study space for all students, located on the 1st floor of Engineering Building No. 2.",
+      "description2": "#Open24Hours #ConversationFriendly #OpenSpace",
       "img": "psj.jpeg"
     },
     {
-        "key": "haedong1",
-        "name": "Haedong 1",
-        "description": "해동해동해동해동해동1",
-        "img": "black.png"
-      },
-      {
-        "key": "haedong2",
-        "name": "Haedong 2",
-        "description": "해동해동해동해동해동2",
-        "img": "psj.jpeg"
-      },
-      {
-        "key": "engineering_library",
-        "name": "Engineering Library",
-        "description": "공열공열공열공열공열",
-        "img": "black.png"
-      }
+      "key": "haedong",
+      "name": "Haedong Information Lounge",
+      "description1": "A study space for students of the College of Information and Communication Engineering,College of Computing and Informatics,located on the 2nd floor of Engineering Building No. 1.",
+      "description2": "#CafeAtmosphere #NapFriendly #ConversationFriendly #StudyRoom",
+      "img": "haedong.png"
+    },
+    {
+      "key": "seminar_room1",
+      "name": "Engineering Seminar Room 1",
+      "description1": "A study space for all students, located on the basement floor of Engineering Building No. 2.",
+      "description2": "#Open9AMto10PM #Private #ReservationRequired #TV #Whiteboard",
+      "img": "studyroom.png"
+    },
+    {
+      "key": "seminar_room2",
+      "name": "Engineering Seminar Room 2",
+      "description1": "A study space for all students, located on the basement floor of Engineering Building No. 2.",
+      "description2": "#Open9AMto10PM #Private #ReservationRequired #TV #Whiteboard",
+      "img": "studyroom.png"
+    }
   ]
