@@ -23,6 +23,14 @@ import { ReactComponent as SeatIcon } from '../img/seat.svg';
 //   return spaceName;
 // }
 
+const getSpaceName = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const spaceName = urlParams.get('spaceName');
+  console.log(spaceName);
+  return spaceName;
+}
+
 // Get one space data
 async function fetchLoungeData(spaceName) {
   // const path = '/data/getSeats';
@@ -40,7 +48,7 @@ async function fetchLoungeData(spaceName) {
 // Get space list Data
 const findAddress = async (name) => {
   const response = await fetch("/data/getSpace/");
-  const data = response.json();
+  const data = await response.json();
   const result = data.find(item => item.name === name);
   return result ? result.address : null;
 }
@@ -128,10 +136,9 @@ const Lounge = () => {
 
   // Server 에서 로드하기 - 박재윤
   useEffect(() => {
-    setPlaceName('parksangjo');
+    setPlaceName(getSpaceName());
     const fetchData = async () => {
       try {
-        //Whatever();
         const fetchedData = await fetchLoungeData(placeName);
         console.log(fetchedData);
         setSeatInfo(fetchedData);
