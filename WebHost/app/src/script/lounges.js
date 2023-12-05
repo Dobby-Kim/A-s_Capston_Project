@@ -6,11 +6,12 @@ import { GoPerson } from "react-icons/go";
 import "../style/lounges.css";
 import LoungeData from "../data/lounges.json";
 import LoungeData2 from "../data/lounges2.json";
+//import Nav from "./nav"
 
 // Get Data
 async function fetchLoungesData() {
   const response = await fetch("/data/getSpace/");
-  const data = response.json();
+  const data = await response.json();
   return data;
 }
 
@@ -47,7 +48,7 @@ const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
   const { available, total } = info;
   const occupancyRate = (available / total) * 100;
   const colorClass =
-    occupancyRate >= 80 ? "red" : occupancyRate >= 50 ? "orange" : "";
+    occupancyRate <= 20 ? "red" : occupancyRate <= 50 ? "orange" : "";
 
   return (
     <div className="waiting-card">
@@ -68,7 +69,7 @@ const Lounges = () => {
   const [waitingLists, setWaitingLists] = useState([]);
 
   // Json으로 테스트하기 위해서
-  useEffect(() => {
+  /*useEffect(() => {
     const loungeDataObject = LoungeData2;
     const lists = loungeDataObject.map((lounge) => ({
       spaceName: lounge.name,
@@ -80,10 +81,10 @@ const Lounges = () => {
     }));
 
     setWaitingLists(lists);
-  }, []);
+  }, []);*/
 
   // Server 연결 시 사용
-  /*useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const temp = await fetchLoungesData();
@@ -105,12 +106,12 @@ const Lounges = () => {
     };
 
     fetchData();
-  }, []);*/
+  }, []);
 
   const handleTakeSeat = ({spaceName}) => {
     navigate({
       pathname: "/lounge",
-      search: createSearchParams({placeName:spaceName}).toString()
+      search: createSearchParams({spaceName:spaceName}).toString()
     })
   };
 

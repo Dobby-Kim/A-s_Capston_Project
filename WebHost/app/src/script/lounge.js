@@ -8,19 +8,23 @@ import "../style/lounge.css";
 import { IoPersonOutline } from "react-icons/io5";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
+//import Nav from "./nav"
 
 // Get space name
-const GetSpace = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const placeName = queryParams.get('placeName');
-  return placeName;
-}
+// const GetSpace = () => {
+//   const location = useLocation();
+//   const queryParams = new URLSearchParams(location.search);
+//   return queryParams.get('spaceName');
+// }
 
 // Get one space data
-async function fetchLoungeData(placeName) {
-  const response = await fetch(`/data/getSeats?placeName=${encodeURIComponent(placeName)}`);
-  const data = response.json();
+async function fetchLoungeData() {
+  // const path = '/data/getSeats';
+  // const params = new URLSearchParams({spaceName: placeName});
+  // const url = `${path}?${params.toString()}`;
+  const response = await fetch('/data/getSeats?spaceName=parksangjo');
+  const data = await response.json();
+  console.log(data);
   return data;
 }
 
@@ -40,12 +44,13 @@ const findAddTemp = (name) => {
 
 const Header = ({ available, reserved, occupied }) => {
   const totalSeats = available + reserved + occupied;
-  const temp = findAddTemp(GetSpace()); // This is from JSon
+  const temp = findAddTemp('parksangjo'); // This is from JSon
+  console.log(temp);
   //const add = findAddress(GetSpace()); // This would be the actual
 
   return (
     <header className="header">
-      <h1>{GetSpace()}</h1>
+      <h1>{'parksangjo'}</h1>
       <div className="header-info">
         <LuMapPin className="icon map" size="21" />
         <p className="num-text">{temp}</p>
@@ -113,26 +118,28 @@ const Lounge = () => {
   ///////// 여기 밑으로가 추가 사항입니다 //////// 
 
   // Server 에서 로드하기 - 박재윤
-  /*useEffect(() => {
-    const fetchData = async() => {
+  useEffect(() => {
+    setPlaceName('parksangjo');
+    const fetchData = async () => {
       try {
-        const temp = await fetchLoungeData(GetSpace());
-        console.log(temp);
+        const fetchedData = await fetchLoungeData();
+        console.log(fetchedData);
+
+        setSeatInfo(fetchedData);
       } catch (error) {
         console.error("Error fetching lounge data:", error);
       }
-    }
-    const data = fetchData();
-    const loungeSeats = data[0]; // If not working try this
-    setSeatInfo(data);
-  }, []);*/
+    };
 
-  // Json에서 로드하기 - 박재윤
-  useEffect(() => {
-    const loungeSeats = placeData2[0];
-    setSeatInfo(loungeSeats);
+    fetchData();
   }, []);
 
+  // Json에서 로드하기 - 박재윤
+  /*useEffect(() => {
+    const loungeSeats = placeData2[0];
+    setSeatInfo(loungeSeats);
+  }, []);*/
+  
   const renderSeatRows = () => {
     /*const seatLayout = [
       [{ id: 'empty' },
