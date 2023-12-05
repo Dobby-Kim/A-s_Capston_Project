@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import placeData from "../data/places.json";
 import loungeData from "../data/lounges2.json"
 import placeData2 from "../data/places2.json"
@@ -17,12 +17,21 @@ import { ReactComponent as SeatIcon } from '../img/seat.svg';
 //   return queryParams.get('spaceName');
 // }
 
+// const Whatever = () => {
+//   const {spaceName} = useParams();
+//   console.log(spaceName);
+//   return spaceName;
+// }
+
 // Get one space data
-async function fetchLoungeData() {
+async function fetchLoungeData(spaceName) {
   // const path = '/data/getSeats';
   // const params = new URLSearchParams({spaceName: placeName});
   // const url = `${path}?${params.toString()}`;
-  const response = await fetch('/data/getSeats?spaceName=parksangjo');
+  //const response = await fetch('/data/getSeats?spaceName=parksangjo');
+  const url = `/data/getSeats?spaceName=${spaceName}`
+  const response = await fetch(url);
+  console.log(response);
   const data = await response.json();
   console.log(data);
   return data;
@@ -122,9 +131,9 @@ const Lounge = () => {
     setPlaceName('parksangjo');
     const fetchData = async () => {
       try {
-        const fetchedData = await fetchLoungeData();
+        //Whatever();
+        const fetchedData = await fetchLoungeData(placeName);
         console.log(fetchedData);
-
         setSeatInfo(fetchedData);
       } catch (error) {
         console.error("Error fetching lounge data:", error);
@@ -186,7 +195,7 @@ const Lounge = () => {
        { id: 'empty' }]
     ];*/
 
-    const seatLayout2 = [
+    const seatLayout = [
       [
         { id: 'empty' },
         { id: 'empty' },
@@ -237,7 +246,7 @@ const Lounge = () => {
         { id: 'empty' }]
     ];
 
-    return seatLayout2.map((row, rowIndex) => (
+    return seatLayout.map((row, rowIndex) => (
       <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
         {row.map((seat, seatIndex) => {
           if (seat.id === 'empty') {
