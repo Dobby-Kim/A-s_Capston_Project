@@ -1,3 +1,5 @@
+
+
 .waiting-list-interface {
   font-family: 'Arial', sans-serif;
   /* margin: 20px auto; */
@@ -14,6 +16,7 @@
   border: 1px solid #ccc;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
   padding: 20px;
   max-width: 60rem;
   min-width: 20rem;

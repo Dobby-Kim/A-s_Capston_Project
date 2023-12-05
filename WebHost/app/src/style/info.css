@@ -1,3 +1,7 @@
+body {
+    background-color: #eaf3e2; 
+  }
+
 .container {
     display: flex;
     justify-content: center;
@@ -26,4 +30,8 @@
     width: 100%;
     background-color: rgba(255, 255, 255, 0.8); 
     z-index: 1;
+  }
+
+  .page-content {
+    padding-bottom: 50px; /* 네비게이션 바 높이에 맞춰 조정 */
   }
