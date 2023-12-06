@@ -104,7 +104,7 @@ def main(original_data):
     detected_pixel = seat_occupation.prop_to_pixel(transformed_coordinates, dst.shape[1], dst.shape[0])
     occupation_final = seat_occupation.seat_occupation(divided, detected_pixel, original_labels, space_init)
 
-    #seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
+    seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
     coordinate_transform.display_transformed_coordinates_matplotlib(
                 dst_image_path, detected_pixel, original_labels, label_map, dst_shape
             )
@@ -150,7 +150,11 @@ if __name__ == "__main__":
             # detected_pixel, original_labels, dst_shape
             main(original_data)
             
-            cv2.imshow('image', image)
+            cv2.imshow('image', cv2.resize(image, (640, 380)))
+            
+            if cv2.waitKey(20) == 27:
+                break
+            
             os.unlink(temp_img_file.name)
         
 
