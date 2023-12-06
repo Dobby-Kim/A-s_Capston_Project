@@ -4,10 +4,10 @@ import os
 
 load_dotenv()
 
+USERNAME = os.getenv('USER')
+PASSWORD = os.getenv('PASSWORD')
 SERVER = os.getenv('SERVER')
 DATABASE = os.getenv('DATABASE')
-USERNAME = os.getenv('USERNAME')
-PASSWORD = os.getenv('PASSWORD')
 
 seat_states = [
     (26010101, 1),
