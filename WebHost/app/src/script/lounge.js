@@ -27,7 +27,6 @@ const getSpaceName = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const spaceName = urlParams.get('spaceName');
-  console.log(spaceName);
   return spaceName;
 }
 
@@ -41,12 +40,11 @@ async function fetchLoungeData(spaceName) {
   const response = await fetch(url);
   console.log(response);
   const data = await response.json();
-  console.log(data);
   return data;
 }
 
 // Get space list Data
-const findAddress = async (name) => {
+async function findAddress(name) {
   const response = await fetch("/data/getSpace/");
   const data = await response.json();
   const result = data.find(item => item.name === name);
@@ -61,13 +59,31 @@ const findAddTemp = (name) => {
 
 const Header = ({ available, reserved, occupied }) => {
   const totalSeats = available + reserved + occupied;
-  const temp = findAddTemp('parksangjo'); // This is from JSon
-  console.log(temp);
-  //const add = findAddress(GetSpace()); // This would be the actual
+  const space = getSpaceName();
+  const temp = findAddTemp(space); // This is from JSon
+  console.log(space);
+  //console.log(temp);
+  //const add = findAddress(getSpaceName()); // This would be the actual
+  //console.log(findAddress(space));
+  // const [address, setAddress] = useState("");
+
+  // useEffect(()=>{
+  //   const fetchAddress = async () => {
+  //     try {
+  //       const fetchedAdd = await findAddress(space);
+  //       console.log(fetchedAdd);
+  //       setAddress(fetchedAdd);
+  //     } catch (error) {
+  //       console.error("Error fetching address data:", error);
+  //     }
+  //   };
+
+  //   fetchAddress();
+  // }, [space]);
 
   return (
     <header className="header">
-      <h1>{'parksangjo'}</h1>
+      <h1>{space}</h1>
       <div className="header-info">
         <LuMapPin className="icon map" size="21" />
         <p className="num-text">{temp}</p>
@@ -100,7 +116,6 @@ const StatusIndicator = () => {
 };
 
 const Lounge = () => {
-  const [placeName, setPlaceName] = useState("");
   const [seatInfo, setSeatInfo] = useState({});
 
   const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
@@ -136,10 +151,10 @@ const Lounge = () => {
 
   // Server 에서 로드하기 - 박재윤
   useEffect(() => {
-    setPlaceName(getSpaceName());
+  
     const fetchData = async () => {
       try {
-        const fetchedData = await fetchLoungeData(placeName);
+        const fetchedData = await fetchLoungeData(getSpaceName());
         console.log(fetchedData);
         setSeatInfo(fetchedData);
       } catch (error) {
