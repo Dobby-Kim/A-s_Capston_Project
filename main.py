@@ -45,16 +45,16 @@ def main(original_data):
     # [x, y, width, height, direction of chair]
     # direction = 1:Up, 2:Right, 3:Down, 4:Left
     psj_lounge_desk = [
-        [12, 262, 32, 53, 2],
-        [12, 209, 32, 52, 2],
-        [12, 156, 32, 52, 2],
-        [12, 103, 32, 52, 2],
-        [12, 49, 32, 53, 2],
-        [68, 14, 68, 33, 3],
-        [137, 14, 52, 33, 3],
-        [190, 14, 52, 33, 3],
-        [243, 14, 52, 33, 3],
-        [296, 14, 52, 33, 3],
+        [-12, 262, 44, 53, 2],
+        [-12, 209, 44, 52, 2],
+        [-12, 156, 44, 52, 2],
+        [-12, 103, 44, 52, 2],
+        [-12, 49, 44, 53, 2],
+        [68, -14, 68, 47, 3],
+        [137, -14, 52, 47, 3],
+        [190, -14, 52, 47, 3],
+        [243, -14, 52, 47, 3],
+        [296, -14, 90, 47, 3],
         [112, 174, 50, 50, 3],
         [112, 123, 50, 50, 1],
         [163, 174, 53, 50, 3],
@@ -105,9 +105,7 @@ def main(original_data):
     occupation_final = seat_occupation.seat_occupation(divided, detected_pixel, original_labels, space_init)
 
     seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
-    coordinate_transform.display_transformed_coordinates_matplotlib(
-                dst_image_path, detected_pixel, original_labels, label_map, dst_shape
-            )
+    #coordinate_transform.display_transformed_coordinates_matplotlib(dst_image_path, transformed_coordinates, original_labels, label_map, dst_shape)
     # 5) jsonify
     # 아래의 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
     updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
@@ -118,7 +116,7 @@ def main(original_data):
 
 if __name__ == "__main__":
     video_path = "./img/sangjotest.mp4"
-    frame_interval = 30
+    frame_interval = 20
 
     default_opts = parse_opt()  # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
     custom_opts = {'weights': 'yolov5x.pt', 'source': video_path, 'classes': label_list}
@@ -150,7 +148,7 @@ if __name__ == "__main__":
             # detected_pixel, original_labels, dst_shape
             main(original_data)
             
-            cv2.imshow('image', cv2.resize(image, (640, 380)))
+            cv2.imshow('image', cv2.resize(image, (1280, 760)))
             
             if cv2.waitKey(20) == 27:
                 break
