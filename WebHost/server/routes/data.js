@@ -26,7 +26,7 @@ router.get("/getSeats", async (req, res) => {
 
     const { spaceName } = req.query;
     const query = `
-          SELECT seatID, seatState 
+          SELECT seatNumber, seatState 
           FROM SeatDataTable 
           WHERE name = '${spaceName}'`;
 
@@ -36,7 +36,7 @@ router.get("/getSeats", async (req, res) => {
     // seatID에서 spaceID 부분 제거 및 응답 데이터 생성
     // return format {좌석 번호: 0,1,2로 나타낸 좌석 상태}
     const seatStates = result.recordset.reduce((acc, record) => {
-      acc[record.seatID % 100] = record.seatState;
+      acc[record.seatNumber] = record.seatState;
       return acc;
     }, {});
 
@@ -61,7 +61,7 @@ router.get("/getSpace", async (req, res) => {
     //쿼리 생성
     const { spaceName } = req.query;
     const query = `
-          SELECT name, address, available_seat, total_seat 
+          SELECT title, address, available_seat, total_seat 
           FROM SpaceTable 
           `;
 
@@ -72,7 +72,7 @@ router.get("/getSpace", async (req, res) => {
     //return format {address: str, available: int, total: int}
     const spaceInfo = result.recordset.map((record) => {
       return {
-        name: record.name,
+        name: record.title,
         address: record.address,
         available: record.available_seat,
         total: record.total_seat,
