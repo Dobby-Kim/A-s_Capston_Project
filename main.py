@@ -110,7 +110,7 @@ def main(original_data):
             )
     # 5) jsonify
     # 아래의 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
-    #updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
+    updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
     print(seat_jsonify.list_db_js(space_name, occupation_final))
     
     # return detected_pixel, original_labels, dst_shape
