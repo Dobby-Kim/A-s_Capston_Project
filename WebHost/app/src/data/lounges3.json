@@ -1,0 +1,28 @@
+[
+  {
+    "space":"ebstudyroom1", 
+    "name":"Engineering Study Room 1",
+    "address":"Engineering No.2, Building No.26 B1 floor",
+    "available":5,
+    "total":8
+  },
+  {
+    "space":"ebstudyroom2", 
+    "name":"Engineering Study Room 2",
+    "address":"Engineering No.2, Building No.26 B1 floor",
+    "available":8,
+    "total":8},
+  {
+    "space":"haedong", 
+    "name":"Hae Dong Library",
+    "address":"Engineering No.1, Building No.22 2nd floor",
+    "available":14,
+    "total":16},
+  {
+    "space":"parksangjo", 
+    "name":"Park Sang Jo Lounge",
+    "address":"Engineering No.2, Building No.26 1st floor",
+    "available":13,
+    "total":18
+  }
+]

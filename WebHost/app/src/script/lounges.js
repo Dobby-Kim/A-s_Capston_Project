@@ -44,7 +44,7 @@ const ActionButton = ({ onTakeSeat, className }) => (
 );
 
 // WaitingCard Component
-const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
+const WaitingCard = ({ info, onTakeSeat }) => {
   const { available, total } = info;
   const occupancyRate = (available / total) * 100;
   const colorClass =
@@ -53,7 +53,7 @@ const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
   return (
     <div className="waiting-card">
       <Location
-        building={spaceName}
+        building={info.name}
         address={info.address}
       />
       <div className="status-and-action">
@@ -91,8 +91,9 @@ const Lounges = () => {
         //console.log(temp);
 
         const lists = temp.map((lounge) => ({
-          spaceName: lounge.name,
+          spaceName: lounge.space,
           info: {
+            name: lounge.name,
             available: lounge.available,
             total: lounge.total,
             address: lounge.address,
@@ -118,7 +119,7 @@ const Lounges = () => {
   return (
     <div className="waiting-list-interface">
       {waitingLists.map((list, index) => (
-        <WaitingCard key={index} spaceName={list.spaceName} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
+        <WaitingCard key={index} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
       ))}
     </div>
   );

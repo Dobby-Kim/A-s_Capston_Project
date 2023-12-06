@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
 import { useLocation, useParams } from "react-router-dom";
 import placeData from "../data/places.json";
-import loungeData from "../data/lounges2.json"
+import loungeData from "../data/lounges3.json"
 import placeData2 from "../data/places2.json"
 import "../style/lounge.css";
 import { LuMapPin } from "react-icons/lu";
@@ -35,23 +35,29 @@ async function findAddress(name) {
 }
 
 // Just for offline testing
-const findAddTemp = (name) => {
-  const result = loungeData.find(item => item.name === name);
+const findAdd = (space) => {
+  const result = loungeData.find(item => item.space === space);
   return result ? result.address : null;
+}
+
+const findName = (space) => {
+  const result = loungeData.find(item => item.space === space);
+  return result ? result.name : null;
 }
 
 const Header = ({ available, reserved, occupied }) => {
   const totalSeats = available + reserved + occupied;
   const space = getSpaceName();
-  const temp = findAddTemp(space); // This is from JSon
+  const name = findName(space);
+  const add = findAdd(space);
   console.log(space);
 
   return (
     <header className="header">
-      <h1>{space}</h1>
+      <h1>{name}</h1>
       <div className="header-info">
         <LuMapPin className="icon map" size="21" />
-        <p className="num-text">{temp}</p>
+        <p className="num-text">{add}</p>
       </div>
       <div className="header-info seat-status">
         <PiChairLight className="icon person" size="23" />
