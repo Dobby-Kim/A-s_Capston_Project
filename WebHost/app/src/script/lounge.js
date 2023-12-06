@@ -8,20 +8,6 @@ import "../style/lounge.css";
 import { IoPersonOutline } from "react-icons/io5";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
-//import Nav from "./nav"
-
-// Get space name
-// const GetSpace = () => {
-//   const location = useLocation();
-//   const queryParams = new URLSearchParams(location.search);
-//   return queryParams.get('spaceName');
-// }
-
-// const Whatever = () => {
-//   const {spaceName} = useParams();
-//   console.log(spaceName);
-//   return spaceName;
-// }
 
 const getSpaceName = () => {
   const queryString = window.location.search;
@@ -32,10 +18,6 @@ const getSpaceName = () => {
 
 // Get one space data
 async function fetchLoungeData(spaceName) {
-  // const path = '/data/getSeats';
-  // const params = new URLSearchParams({spaceName: placeName});
-  // const url = `${path}?${params.toString()}`;
-  //const response = await fetch('/data/getSeats?spaceName=parksangjo');
   const url = `/data/getSeats?spaceName=${spaceName}`
   const response = await fetch(url);
   console.log(response);
@@ -62,24 +44,6 @@ const Header = ({ available, reserved, occupied }) => {
   const space = getSpaceName();
   const temp = findAddTemp(space); // This is from JSon
   console.log(space);
-  //console.log(temp);
-  //const add = findAddress(getSpaceName()); // This would be the actual
-  //console.log(findAddress(space));
-  // const [address, setAddress] = useState("");
-
-  // useEffect(()=>{
-  //   const fetchAddress = async () => {
-  //     try {
-  //       const fetchedAdd = await findAddress(space);
-  //       console.log(fetchedAdd);
-  //       setAddress(fetchedAdd);
-  //     } catch (error) {
-  //       console.error("Error fetching address data:", error);
-  //     }
-  //   };
-
-  //   fetchAddress();
-  // }, [space]);
 
   return (
     <header className="header">
@@ -122,33 +86,6 @@ const Lounge = () => {
   const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
   const isPortrait = useMediaQuery({ orientation: 'portrait' });
 
-  /*const load = async (placeName) => {
-    try {
-      const response = await fetch(
-        `/seat?placeName=${encodeURIComponent(placeName)}`
-      );
-      const data = await response.json();
-      setSeatInfo(data);
-    } catch (error) {
-      console.error(error);
-      alert(`⚠️ 서버에서 데이터를 가져올 수 없어요! ⚠️\n${error.message}`);
-    }
-  };
-
-  const searchPlace = async (event) => {
-    event.preventDefault();
-    await load(placeName);
-  };
-
-  // JSON 파일에서 데이터 로드
-  useEffect(() => {
-    const loungeSeats = placeData[0]["parksangjo"];
-    setSeatInfo(loungeSeats);
-  }, []);*/
-
-
-  ///////// 여기 밑으로가 추가 사항입니다 //////// 
-
   // Server 에서 로드하기 - 박재윤
   useEffect(() => {
   
@@ -164,60 +101,10 @@ const Lounge = () => {
 
     fetchData();
   }, []);
-
-  // Json에서 로드하기 - 박재윤
-  /*useEffect(() => {
-    const loungeSeats = placeData2[0];
-    setSeatInfo(loungeSeats);
-  }, []);*/
   
   const renderSeatRows = () => {
+    const spaceName = getSpaceName();
     /*const seatLayout = [
-      [{ id: 'empty' },
-       { id: 'empty' },
-       { id: 'seat6', chairPosition: 'below' },
-       { id: 'seat7', chairPosition: 'below' },
-       { id: 'seat8', chairPosition: 'below' },
-       { id: 'seat9', chairPosition: 'below' },
-       { id: 'seat10', chairPosition: 'below' }],
-      [{ id: 'seat5', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' }],
-      [{ id: 'seat4', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' }],
-       [{ id: 'seat3', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'seat12', chairPosition: 'up' },
-       { id: 'seat14', chairPosition: 'up' },
-       { id: 'seat16', chairPosition: 'up' },
-       { id: 'seat18', chairPosition: 'up' }],
-      [{ id: 'seat2', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'seat11', chairPosition: 'below' },
-       { id: 'seat13', chairPosition: 'below' },
-       { id: 'seat15', chairPosition: 'below' },
-       { id: 'seat17', chairPosition: 'below' }],
-      [{ id: 'seat1', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' }]
-    ];*/
-
-    const seatLayout = [
       [
         { id: 'empty' },
         { id: 'empty' },
@@ -266,7 +153,210 @@ const Lounge = () => {
         { id: 'empty' },
         { id: 'empty' },
         { id: 'empty' }]
-    ];
+    ];*/
+
+    let seatLayout;
+
+    if (spaceName === 'parksangjo') {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '6', chairPosition: 'below' },
+          { id: '7', chairPosition: 'below' },
+          { id: '8', chairPosition: 'below' },
+          { id: '9', chairPosition: 'below' },
+          { id: '10', chairPosition: 'below' }],
+        [
+          { id: '5', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
+        [
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
+        [
+          { id: '3', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '12', chairPosition: 'up' },
+          { id: '14', chairPosition: 'up' },
+          { id: '16', chairPosition: 'up' },
+          { id: '18', chairPosition: 'up' }],
+        [
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '11', chairPosition: 'below' },
+          { id: '13', chairPosition: 'below' },
+          { id: '15', chairPosition: 'below' },
+          { id: '17', chairPosition: 'below' }],
+        [
+          { id: '1', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }]
+      ];
+    } else if (spaceName === 'ebstudyroom1') {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'left' },
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left' },
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '5', chairPosition: 'left' },
+          { id: '6', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '7', chairPosition: 'left' },
+          { id: '8', chairPosition: 'right' },
+          { id: 'empty' }]
+      ];
+    } else if (spaceName === 'haedong') {
+      seatLayout = [
+        [
+          { id: '1', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '2', chairPosition: 'left' },
+          { id: '3', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '4', chairPosition: 'left' },
+          { id: '5', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '6', chairPosition: 'left' },
+          { id: '7', chairPosition: 'right' }],
+
+          [
+            { id: '8', chairPosition: 'right' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '9', chairPosition: 'left' },
+            { id: '10', chairPosition: 'right' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '11', chairPosition: 'left' },
+            { id: '12', chairPosition: 'right' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '13', chairPosition: 'left' },
+            { id: '14', chairPosition: 'right' }],
+
+            [
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },],
+            [
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },],
+          [
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '15', chairPosition: 'up' },
+            { id: '16', chairPosition: 'up' },
+            { id: '17', chairPosition: 'up' },
+            { id: '18', chairPosition: 'up' },
+            { id: '19', chairPosition: 'up' },
+            { id: '20', chairPosition: 'up' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },],
+            [
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: '21', chairPosition: 'below' },
+              { id: '22', chairPosition: 'below' },
+              { id: '23', chairPosition: 'below' },
+              { id: '24', chairPosition: 'below' },
+              { id: '25', chairPosition: 'below' },
+              { id: '26', chairPosition: 'below' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },],
+
+              [
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },],
+      ];
+    } else {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'left' },
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left' },
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '5', chairPosition: 'left' },
+          { id: '6', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '7', chairPosition: 'left' },
+          { id: '8', chairPosition: 'right' },
+          { id: 'empty' }]
+      ];
+    }
 
     return seatLayout.map((row, rowIndex) => (
       <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
