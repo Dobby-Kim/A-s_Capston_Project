@@ -65,6 +65,7 @@ const WaitingCard = ({ spaceName, info, onTakeSeat }) => {
 };
 
 const Lounges = () => {
+  window.dispatchEvent(new CustomEvent('navigationUpdate', { detail: '/lounges' }));
   const navigate = useNavigate();
   const [waitingLists, setWaitingLists] = useState([]);
 

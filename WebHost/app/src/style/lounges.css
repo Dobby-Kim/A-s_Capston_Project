@@ -140,7 +140,14 @@
 .take-seat-button {
   width: 40%;
   font-size: 0.8rem;
+  transition: all 0.3s ease; 
 }
+
+.take-seat-button:hover {
+  transform: scale(1.1); 
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+
 
 .waiting-card .queue-status {
   font-size: 1em; 

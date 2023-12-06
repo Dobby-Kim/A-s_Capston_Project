@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: flex-start; 
   gap: 10px; 
+  border-radius: 15px;
 }
 
 .header-info {
@@ -115,9 +116,7 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  width: 2rem; 
   height: 2rem; 
-  margin: 0; 
 }
 
 .seat {
@@ -131,14 +130,24 @@
   cursor: pointer;
 }
 
-.seat-container.up .seat, .seat-container.below .seat {
-  width: 70%; 
-  height: 40%; 
+.seat.none {
+  display: none;
 }
 
-.seat-container.right .seat, .seat-container.left .seat {
-  width: 40%; 
-  height: 70%; 
+.seat-container.p42 .seat.p42, .seat-container.p4 .seat.p4 {
+  height: 140% !important;
+}
+
+.seat-container.p2 .seat.p2 {
+  width: 1.5rem !important;
+}
+
+.seat-container.p4 .seat.p4 {
+  width: 3rem !important;
+}
+
+.seat.p2 {
+  display: none;
 }
 
 .seat.reserved {
@@ -164,6 +173,13 @@
   height: 1.7rem;
   fill: currentColor;
   stroke-width: 0.4vw;
+}
+
+.seat-icon.sofa {
+  width: 2rem;
+  height: 3rem;
+  fill: currentColor;
+  stroke-width: 0.4vw !important;
 }
 
 .seat-container.below .seat-icon {
@@ -211,6 +227,7 @@
   padding: 20px;
   position: relative; 
   border: 2px solid #d6d6d6; 
+  border-radius: 15px;
 }
 
 /* 반응형 사이즈) 태블릿 / 모바일 */
@@ -252,6 +269,11 @@
     max-width: 50rem;
     max-height: 50rem;
   }
+
+  .seat.none {
+    display: none;
+  }
+
 }
 
 
@@ -291,8 +313,6 @@
     position: relative;
     align-items: center;
     justify-content: center;
-    width: 2.5rem; 
-    height: 2.5rem; 
     margin: 0; 
   }
 
@@ -306,4 +326,10 @@
     min-width: 30rem;
     min-height: 30rem;
   }
+
+  .seat.none {
+    display: none;
+  }
+  
 }
+

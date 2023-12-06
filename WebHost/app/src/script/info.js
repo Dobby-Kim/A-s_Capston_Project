@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createSearchParams, useNavigate } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,26 +8,34 @@ import { CardActionArea } from '@mui/material';
 import info from '../data/info.json'; 
 import "../style/info.css";
 
-// const handleTakeSeat = ({ spaceName }) => {
-//   navigate({
-//     pathname: "/lounge",
-//     search: createSearchParams({ spaceName: spaceName }).toString()
-//   });
-// };
 
 
-// // ActionButton Component
-// const ActionButton = ({ onTakeSeat, className }) => (
-//     <button className={`take-seat-button ${className}`} onClick={onTakeSeat}>
-//       Take a seat
-//     </button>
-//   );  
+// ActionButton Component
+const ActionButton = ({ spaceName, onTakeSeat }) => (
+  <button className="take-seat-button-info" onClick={() => onTakeSeat(spaceName)}>
+    Take a seat
+  </button>
+);  
 
 const LoungeCards = () => {
+  const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = useState(null);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('navigationUpdate', { detail: '/info' }));
+  }, []);
 
   const handleCardClick = (key) => {
     setSelectedCard(key === selectedCard ? null : key);
+  };
+
+  const handleTakeSeat = (spaceName) => {
+    navigate({
+      pathname: "/lounge",
+      search: createSearchParams({ spaceName: spaceName }).toString()
+    } );
+
+    window.dispatchEvent(new CustomEvent('navigationUpdate', { detail: '/lounges' }));
   };
 
   return (
@@ -46,11 +55,12 @@ const LoungeCards = () => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div" fontWeight= 'bold'>
-                {lounge.name}
+                {lounge.name} 
               </Typography>
               <Typography variant="body2" color="text.secondary" >
                 {lounge.description1}
               </Typography>
+              <div style={{ margin: "1rem 0" }}></div>
               <Typography variant="body2" color="green" >
                 {lounge.description2}
               </Typography>
@@ -58,7 +68,7 @@ const LoungeCards = () => {
             
           </CardActionArea>
           {selectedCard === lounge.key && <div className="card-overlay">
-          {/* <ActionButton onTakeSeat={onTakeSeat} /> */}
+          <ActionButton spaceName={lounge.key} onTakeSeat={handleTakeSeat} />
             </div>}
         </Card>
       ))}

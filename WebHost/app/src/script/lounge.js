@@ -8,6 +8,7 @@ import "../style/lounge.css";
 import { PiChairLight } from "react-icons/pi";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
+import { ReactComponent as SofaIcon } from '../img/sofa.svg';
 
 
 // Get space name
@@ -78,9 +79,13 @@ const StatusIndicator = () => {
   );
 };
 
+
+
 const Lounge = () => {
+  window.dispatchEvent(new CustomEvent('navigationUpdate', { detail: '/lounges' }));
   const [placeName, setPlaceName] = useState("");
   const [seatInfo, setSeatInfo] = useState({});
+  
 
   const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
   const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
@@ -184,7 +189,14 @@ const Lounge = () => {
     ];*/
 
     if (spaceName === 'parksangjo') {
-      layout = [
+      layout = [[
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },
+        { id: 'empty' },],
         [
           { id: 'empty' },
           { id: 'empty' },
@@ -232,10 +244,24 @@ const Lounge = () => {
           { id: 'empty' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: 'empty' }]
+          { id: 'empty' }],
+          [
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' }],
       ];
     } else if (spaceName === 'ebstudyroom1') {
       layout = [
+        
+        [
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
         [
           { id: 'empty' },
           { id: '1', chairPosition: 'left' },
@@ -255,40 +281,48 @@ const Lounge = () => {
           { id: 'empty' },
           { id: '7', chairPosition: 'left' },
           { id: '8', chairPosition: 'right' },
-          { id: 'empty' }]
+          { id: 'empty' }],
+        [
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' }]
       ];
     } else if (spaceName === 'haedong') {
       layout = [
         [
-          { id: '1', chairPosition: 'right' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: '2', chairPosition: 'left' },
-          { id: '3', chairPosition: 'right' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: '4', chairPosition: 'left' },
-          { id: '5', chairPosition: 'right' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: '6', chairPosition: 'left' },
-          { id: '7', chairPosition: 'right' }],
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },],
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'right', merged: true, num: 'p42' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '2', chairPosition: 'left', merged: true, num: 'p4' },
+          { id: '2', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left', merged: true, num: 'p4'},
+          { id: '3', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '4', chairPosition: 'left', merged: true, num: 'p4'},
+          { id: '4', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },],
 
-          [
-            { id: '8', chairPosition: 'right' },
-            { id: 'empty' },
-            { id: 'empty' },
-            { id: '9', chairPosition: 'left' },
-            { id: '10', chairPosition: 'right' },
-            { id: 'empty' },
-            { id: 'empty' },
-            { id: '11', chairPosition: 'left' },
-            { id: '12', chairPosition: 'right' },
-            { id: 'empty' },
-            { id: 'empty' },
-            { id: '13', chairPosition: 'left' },
-            { id: '14', chairPosition: 'right' }],
-
             [
               { id: 'empty' },
               { id: 'empty' },
@@ -302,7 +336,8 @@ const Lounge = () => {
               { id: 'empty' },
               { id: 'empty' },
               { id: 'empty' },
-              { id: 'empty' },],
+              { id: 'empty' },
+              { id: 'empty' }],
             [
                 { id: 'empty' },
                 { id: 'empty' },
@@ -316,33 +351,36 @@ const Lounge = () => {
                 { id: 'empty' },
                 { id: 'empty' },
                 { id: 'empty' },
-                { id: 'empty' },],
+                { id: 'empty' },
+                { id: 'empty' }],
           [
             { id: 'empty' },
             { id: 'empty' },
             { id: 'empty' },
-            { id: '15', chairPosition: 'up' },
-            { id: '16', chairPosition: 'up' },
-            { id: '17', chairPosition: 'up' },
-            { id: '18', chairPosition: 'up' },
-            { id: '19', chairPosition: 'up' },
-            { id: '20', chairPosition: 'up' },
+            { id: '5', chairPosition: 'up' },
+            { id: '6', chairPosition: 'up' },
+            { id: '7', chairPosition: 'up' },
+            { id: '8', chairPosition: 'up' },
+            { id: '9', chairPosition: 'up' },
+            { id: '10', chairPosition: 'up' },
             { id: 'empty' },
             { id: 'empty' },
-            { id: 'empty' },],
+            { id: 'empty' },
+            { id: 'empty' }],
             [
               { id: 'empty' },
               { id: 'empty' },
               { id: 'empty' },
-              { id: '21', chairPosition: 'below' },
-              { id: '22', chairPosition: 'below' },
-              { id: '23', chairPosition: 'below' },
-              { id: '24', chairPosition: 'below' },
-              { id: '25', chairPosition: 'below' },
-              { id: '26', chairPosition: 'below' },
+              { id: '11', chairPosition: 'below' },
+              { id: '12', chairPosition: 'below' },
+              { id: '13', chairPosition: 'below' },
+              { id: '14', chairPosition: 'below' },
+              { id: '15', chairPosition: 'below' },
+              { id: '16', chairPosition: 'below' },
               { id: 'empty' },
               { id: 'empty' },
-              { id: 'empty' },],
+              { id: 'empty' },
+              { id: 'empty' }],
 
               [
                 { id: 'empty' },
@@ -357,10 +395,31 @@ const Lounge = () => {
                 { id: 'empty' },
                 { id: 'empty' },
                 { id: 'empty' },
-                { id: 'empty' },],
+                { id: 'empty' },
+                { id: 'empty' }],
+                [
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' }],
       ];
     } else {
       layout = [
+        [
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
         [
           { id: 'empty' },
           { id: '1', chairPosition: 'left' },
@@ -380,20 +439,26 @@ const Lounge = () => {
           { id: 'empty' },
           { id: '7', chairPosition: 'left' },
           { id: '8', chairPosition: 'right' },
-          { id: 'empty' }]
+          { id: 'empty' }],
+        [
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' }]
       ];
     }
 
     return layout.map((row, rowIndex) => (
-      <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
+      <div className="row" key={`row-${rowIndex}`}>
         {row.map((seat, seatIndex) => {
           if (seat.id === 'empty') {
             return <div className="seat-container empty" key={`empty-${rowIndex}-${seatIndex}`}></div>;
           }
-  
+          
           const seatStatus = seatInfo[seat.id];
           let seatClass = '';
           let iconClass = '';
+          let seatContent;
   
           switch (seatStatus) {
             case 0: // empty
@@ -411,6 +476,17 @@ const Lounge = () => {
             default: // unknown
               seatClass = 'unknown';
               iconClass = 'unknown';
+          }
+
+          if (seat.merged) {
+            return (
+              <div className={`seat-container ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
+                <div className={`seat ${seatClass} ${seat.num}`}>
+                {seat.id.replace('seat', '')}
+              </div>
+              <SofaIcon className={`seat-icon sofa ${iconClass}`} />
+            </div>
+            );
           }
   
           return (
@@ -449,3 +525,5 @@ const Lounge = () => {
 };
 
 export default Lounge;
+
+
