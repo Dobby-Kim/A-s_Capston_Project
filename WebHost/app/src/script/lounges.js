@@ -6,7 +6,7 @@ import "../style/lounges.css";
 import LoungeData from "../data/lounges.json";
 import LoungeData2 from "../data/lounges2.json";
 import { PiChairLight } from "react-icons/pi";
-//import Nav from "./nav"
+// import Nav from "./nav"
 
 // Get Data
 async function fetchLoungesData() {

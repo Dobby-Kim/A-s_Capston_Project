@@ -7,6 +7,7 @@ import placeData2 from "../data/places2.json"
 import "../style/lounge.css";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
+import { ReactComponent as SofaIcon } from '../img/sofa.svg';
 import { PiChairLight } from "react-icons/pi";
 
 const getSpaceName = () => {
@@ -234,35 +235,38 @@ const Lounge = () => {
     } else if (spaceName === 'haedong') {
       seatLayout = [
         [
-          { id: '1', chairPosition: 'right' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: '2', chairPosition: 'left' },
-          { id: '3', chairPosition: 'right' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: '4', chairPosition: 'left' },
-          { id: '5', chairPosition: 'right' },
           { id: 'empty' },
           { id: 'empty' },
-          { id: '6', chairPosition: 'left' },
-          { id: '7', chairPosition: 'right' }],
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },],
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'right', merged: true, num: 'p42' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '2', chairPosition: 'left', merged: true, num: 'p4' },
+          { id: '2', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left', merged: true, num: 'p4'},
+          { id: '3', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '4', chairPosition: 'left', merged: true, num: 'p4'},
+          { id: '4', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },],
 
-          [
-            { id: '8', chairPosition: 'right' },
-            { id: 'empty' },
-            { id: 'empty' },
-            { id: '9', chairPosition: 'left' },
-            { id: '10', chairPosition: 'right' },
-            { id: 'empty' },
-            { id: 'empty' },
-            { id: '11', chairPosition: 'left' },
-            { id: '12', chairPosition: 'right' },
-            { id: 'empty' },
-            { id: 'empty' },
-            { id: '13', chairPosition: 'left' },
-            { id: '14', chairPosition: 'right' }],
-
             [
               { id: 'empty' },
               { id: 'empty' },
@@ -276,7 +280,8 @@ const Lounge = () => {
               { id: 'empty' },
               { id: 'empty' },
               { id: 'empty' },
-              { id: 'empty' },],
+              { id: 'empty' },
+              { id: 'empty' }],
             [
                 { id: 'empty' },
                 { id: 'empty' },
@@ -290,33 +295,36 @@ const Lounge = () => {
                 { id: 'empty' },
                 { id: 'empty' },
                 { id: 'empty' },
-                { id: 'empty' },],
+                { id: 'empty' },
+                { id: 'empty' }],
           [
             { id: 'empty' },
             { id: 'empty' },
             { id: 'empty' },
-            { id: '15', chairPosition: 'up' },
-            { id: '16', chairPosition: 'up' },
-            { id: '17', chairPosition: 'up' },
-            { id: '18', chairPosition: 'up' },
-            { id: '19', chairPosition: 'up' },
-            { id: '20', chairPosition: 'up' },
+            { id: '5', chairPosition: 'up' },
+            { id: '6', chairPosition: 'up' },
+            { id: '7', chairPosition: 'up' },
+            { id: '8', chairPosition: 'up' },
+            { id: '9', chairPosition: 'up' },
+            { id: '10', chairPosition: 'up' },
             { id: 'empty' },
             { id: 'empty' },
-            { id: 'empty' },],
+            { id: 'empty' },
+            { id: 'empty' }],
             [
               { id: 'empty' },
               { id: 'empty' },
               { id: 'empty' },
-              { id: '21', chairPosition: 'below' },
-              { id: '22', chairPosition: 'below' },
-              { id: '23', chairPosition: 'below' },
-              { id: '24', chairPosition: 'below' },
-              { id: '25', chairPosition: 'below' },
-              { id: '26', chairPosition: 'below' },
+              { id: '11', chairPosition: 'below' },
+              { id: '12', chairPosition: 'below' },
+              { id: '13', chairPosition: 'below' },
+              { id: '14', chairPosition: 'below' },
+              { id: '15', chairPosition: 'below' },
+              { id: '16', chairPosition: 'below' },
               { id: 'empty' },
               { id: 'empty' },
-              { id: 'empty' },],
+              { id: 'empty' },
+              { id: 'empty' }],
 
               [
                 { id: 'empty' },
@@ -331,7 +339,23 @@ const Lounge = () => {
                 { id: 'empty' },
                 { id: 'empty' },
                 { id: 'empty' },
-                { id: 'empty' },],
+                { id: 'empty' },
+                { id: 'empty' }],
+                [
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' }],
       ];
     } else {
       seatLayout = [
@@ -368,6 +392,7 @@ const Lounge = () => {
           const seatStatus = seatInfo[seat.id];
           let seatClass = '';
           let iconClass = '';
+          let seatContent;
   
           switch (seatStatus) {
             case 0: // empty
@@ -385,6 +410,17 @@ const Lounge = () => {
             default: // unknown
               seatClass = 'unknown';
               iconClass = 'unknown';
+          }
+
+          if (seat.merged) {
+            return (
+              <div className={`seat-container ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
+                <div className={`seat ${seatClass} ${seat.num}`}>
+                {seat.id.replace('seat', '')}
+              </div>
+              <SofaIcon className={`seat-icon sofa ${iconClass}`} />
+            </div>
+            );
           }
   
           return (
