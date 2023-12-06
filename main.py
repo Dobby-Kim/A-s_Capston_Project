@@ -8,6 +8,10 @@ from util import seat_jsonify
 
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import os
+import tempfile
 
 from argparse import Namespace
 from yolov5.detection import parse_opt
@@ -62,7 +66,7 @@ def main(original_data):
     ]
 
     src_image_path = './yolov5/img/psj.jpeg' 
-    dst_image_path = './yolov5/img/roomMap.png'
+    dst_image_path = './img/roomMap.png'
 
     ###################################################################################################
 
@@ -81,7 +85,7 @@ def main(original_data):
 
     
     # 2) coordiates transformation
-    src = cv2.imread(src_image_path, -1)
+    #src = cv2.imread(src_image_path, -1)
     dst = cv2.imread(dst_image_path, -1)
 
     src_shape = (1920, 1080) # fixed
@@ -100,38 +104,58 @@ def main(original_data):
     detected_pixel = seat_occupation.prop_to_pixel(transformed_coordinates, dst.shape[1], dst.shape[0])
     occupation_final = seat_occupation.seat_occupation(divided, detected_pixel, original_labels, space_init)
 
-    seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
-
+    #seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
+    coordinate_transform.display_transformed_coordinates_matplotlib(
+                dst_image_path, detected_pixel, original_labels, label_map, dst_shape
+            )
     # 5) jsonify
     # 아래의 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
-    updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
+    #updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
     print(seat_jsonify.list_db_js(space_name, occupation_final))
+    
+    # return detected_pixel, original_labels, dst_shape
 
 
 if __name__ == "__main__":
-    video_path = "rtsp://admin:ehduq214@220.78.3.204:554/stream1"
+    video_path = "./img/sangjotest.mp4"
     frame_interval = 60
 
     default_opts = parse_opt()  # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
-    custom_opts = {'weights': 'yolov5x.pt', 'source': './img/psj.jpeg', 'classes': label_list}
+    custom_opts = {'weights': 'yolov5x.pt', 'source': video_path, 'classes': label_list}
     combined_opts = vars(default_opts)
     combined_opts.update(custom_opts)
     opt = Namespace(**combined_opts)
 
-    original_data = detection.process_detection(opt)
-    main(original_data)
+    #original_data = detection.process_detection(opt)
+    #main(original_data)
     
     vidcap = cv2.VideoCapture(video_path)
-    success, image = vidcap.read()
     count = 0
 
-    while success:
-        if count % frame_interval == 0:
-            original_data = detection.process_detection(opt)
-            main(original_data)
-        count += 1
+        
+    while True:
+        
         success, image = vidcap.read()
+        count += 1
+        
+        if not success:
+            break
+        
+        if count % frame_interval == 0:
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_img_file:
+                cv2.imwrite(temp_img_file.name, image)
+        
+            opt.source = temp_img_file.name
+            original_data = detection.process_detection(opt)
+            # detected_pixel, original_labels, dst_shape
+            main(original_data)
+            
+            cv2.imshow('image', image)
+            os.unlink(temp_img_file.name)
+        
 
+    vidcap.release()
+    cv2.destroyAllWindows()
     '''while True:
         start_time = time.time()
         main()
