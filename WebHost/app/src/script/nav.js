@@ -5,6 +5,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import "../style/nav.css";
+import title_image from "../img/Empty Seats.png";
+import team_image from "../img/team A’s.png";
+import skku_image from "../img/chair.png";
 
 const LabelBottomNavigation = () => {
   const navigate = useNavigate();
@@ -38,7 +41,9 @@ const LabelBottomNavigation = () => {
   };
 
   return (
-    <div className='navigation'>
+    <div className='navigation-wrapper'>
+      {/* <img src={skku_image} alt="Left" className="nav-image-left" /> */}
+      <div className='navigation'>
         <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
           {[
             { label: 'Spaces', value: '/lounges', icon: <LocationOnIcon /> },
@@ -54,6 +59,8 @@ const LabelBottomNavigation = () => {
             />
           ))}
         </BottomNavigation>
+    </div>
+      {/* <img src={skku_image} alt="Right" className="nav-image-right" /> */}
     </div>
   );
 };

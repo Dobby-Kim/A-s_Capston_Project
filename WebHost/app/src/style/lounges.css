@@ -1,6 +1,8 @@
+
+
 .waiting-list-interface {
   font-family: 'Arial', sans-serif;
-  margin: 20px auto;
+  /* margin: 20px auto; */
   padding: 20px;
   display: flex;
   flex-direction: column; /* 자식 요소들을 세로로 나열 */
@@ -9,12 +11,15 @@
 }
 
 .waiting-card {
-  width: 400px;
+  width: 30rem;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
   padding: 20px;
+  max-width: 60rem;
+  min-width: 20rem;
 }
 
 .waiting-card .location {
@@ -78,6 +83,10 @@
   align-items: center;
 }
 
+.person-icon {
+  stroke-width: 0.5rem; 
+}
+
 .address-info {
   display: flex; 
   align-items: center; 
@@ -117,15 +126,28 @@
   margin-left: -10px;
 }
 
-.waiting-list-interface .waiting-card {
-  width: 100%; 
+/* .waiting-list-interface .waiting-card {
+  width: 80%; 
   padding: 10px; 
 }
+
 
 .waiting-list-interface .take-seat-button {
   width: 40%;
   font-size: 0.8rem;
+} */
+
+.take-seat-button {
+  width: 40%;
+  font-size: 0.8rem;
+  transition: all 0.3s ease; 
 }
+
+.take-seat-button:hover {
+  transform: scale(1.1); 
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+
 
 .waiting-card .queue-status {
   font-size: 1em; 

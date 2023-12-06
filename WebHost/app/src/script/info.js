@@ -55,7 +55,7 @@ const LoungeCards = () => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div" fontWeight= 'bold'>
-                {lounge.name}
+                {lounge.name} 
               </Typography>
               <Typography variant="body2" color="text.secondary" >
                 {lounge.description1}
