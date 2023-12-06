@@ -118,7 +118,7 @@ def main(original_data):
 
 if __name__ == "__main__":
     video_path = "./img/sangjotest.mp4"
-    frame_interval = 60
+    frame_interval = 30
 
     default_opts = parse_opt()  # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
     custom_opts = {'weights': 'yolov5x.pt', 'source': video_path, 'classes': label_list}

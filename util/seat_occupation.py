@@ -13,7 +13,7 @@ def init_space(n):
 def prop_to_pixel(points, width, height):
     points_prop = []
     for point in points:
-        points_prop.append([point[0]*height*0.95, point[1]*width*0.85]) # fixed
+        points_prop.append([point[0]*height*0.95, point[1]*width*0.8]) # fixed
 
     return points_prop
 
@@ -55,8 +55,8 @@ def display_seat_OpenCV(image_path, space, points, occupation):
     cv2.namedWindow("Seats", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("Seats", 640, 480)
     cv2.imshow('Seats', blueprint)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.waitKey(20)
+    
     return 0
 
 
