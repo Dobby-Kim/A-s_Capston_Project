@@ -452,8 +452,11 @@ const Lounge = () => {
       <div className="row" key={`row-${rowIndex}`}>
         {row.map((seat, seatIndex) => {
           if (seat.id === 'empty') {
-            return <div className="seat-container empty" key={`empty-${rowIndex}-${seatIndex}`}></div>;
-          }
+            if (seat.merged) { 
+              return <div className={"seat-container2 empty"} key={`empty-${rowIndex}-${seatIndex}`}></div>;
+            }
+            return <div className={"seat-container empty"} key={`empty-${rowIndex}-${seatIndex}`}></div>;
+          } 
           
           const seatStatus = seatInfo[seat.id];
           let seatClass = '';
@@ -480,8 +483,8 @@ const Lounge = () => {
 
           if (seat.merged) {
             return (
-              <div className={`seat-container ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
-                <div className={`seat ${seatClass} ${seat.num}`}>
+              <div className={`seat-container2 ${spaceName} ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
+                <div className={`seat ${spaceName} ${seat.num} ${seatClass}`}>
                 {seat.id.replace('seat', '')}
               </div>
               <SofaIcon className={`seat-icon sofa ${iconClass}`} />

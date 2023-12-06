@@ -111,12 +111,24 @@
   margin-bottom: 0.2rem;
 }
 
+.seat-container2.haedong {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  /* width: 5rem; 
+  height: 5rem;  */
+  
+}
+
 .seat-container {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
+  width: 2rem; 
   height: 2rem; 
+  margin: 0; 
 }
 
 .seat {
@@ -130,20 +142,20 @@
   cursor: pointer;
 }
 
-.seat.none {
+.seat.haedong.none {
   display: none;
 }
 
-.seat-container.p42 .seat.p42, .seat-container.p4 .seat.p4 {
-  height: 140% !important;
+.seat-container2.haedong.p42 .seat.haedong.p42, .seat-container2.haedong.p4 .seat.haedong.p4 {
+  height: 45% !important;
 }
 
-.seat-container.p2 .seat.p2 {
-  width: 1.5rem !important;
+.seat-container2.haedong.p2 .seat.haedong.p2 {
+  width: 1.25rem !important;
 }
 
-.seat-container.p4 .seat.p4 {
-  width: 3rem !important;
+.seat-container2.haedong.p4 .seat.haedong.p4 {
+  width: 2.5rem !important;
 }
 
 .seat.p2 {
@@ -180,6 +192,29 @@
   height: 3rem;
   fill: currentColor;
   stroke-width: 0.4vw !important;
+}
+
+.seat-container2.below .seat-icon {
+  position: absolute;
+  bottom: -1.9rem; 
+  transform: rotate(180deg);
+}
+
+.seat-container2.right .seat-icon {
+  position: absolute;
+  right: -1.9rem; 
+  transform: rotate(90deg);
+}
+
+.seat-container2.left .seat-icon {
+  position: absolute;
+  left: -1.9rem; 
+  transform: rotate(270deg);
+}
+
+.seat-container2.up .seat-icon {
+  position: absolute;
+  top: -1.9rem; 
 }
 
 .seat-container.below .seat-icon {
@@ -219,16 +254,22 @@
 }
 
 .card {
+  /* 기존 스타일 유지 */
   margin-top: 2rem;
   margin-bottom: 1.5rem;
   margin-left: 2.5rem;
   margin-right: 2.5rem;
   max-width: 100%;
   padding: 20px;
-  position: relative; 
-  border: 2px solid #d6d6d6; 
+  position: relative;
+  border: 2px solid #d6d6d6;
   border-radius: 15px;
+
+  /* 스크롤 기능 추가 */
+  overflow-x: auto; 
+  overflow-y: hidden; 
 }
+
 
 /* 반응형 사이즈) 태블릿 / 모바일 */
 @media (max-width: 1224px) {
@@ -249,10 +290,15 @@
     margin-bottom: 1.5rem;
   }
 
-  .seat, .empty {
+  .seat {
     min-width: 2rem;
     min-height: 2rem;
     font-size: 0.8rem;
+  }
+
+  .empty {
+    min-width: 0.5rem;
+    min-height: 1rem;
   }
 
   .seat {
@@ -269,11 +315,6 @@
     max-width: 50rem;
     max-height: 50rem;
   }
-
-  .seat.none {
-    display: none;
-  }
-
 }
 
 
@@ -298,14 +339,27 @@
     margin-bottom: 1.5rem;
   }
 
-  .seat, .empty {
+  .seat {
     min-width: 1.8rem;
     min-height: 1.8rem;
     font-size: 0.8rem;
   }
 
+  .empty {
+    min-width: 0.5rem;
+    min-height: 1rem;
+  }
+
   .seat {
     border: 1.5px solid #666; 
+  }
+
+  .seat-container.haedong {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    margin: 0; 
   }
 
   .seat-container {
@@ -326,10 +380,8 @@
     min-width: 30rem;
     min-height: 30rem;
   }
-
+  
   .seat.none {
     display: none;
   }
-  
 }
-
