@@ -13,10 +13,11 @@ body {
 }
 
 .each_card {
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
   margin: 2rem 2.5rem 1.5rem;
   max-width: 25rem;
-  height: 22rem;
+  min-width: 20rem;
+  height: auto;
   position: relative;
   border: 2px solid #d6d6d6;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 변환과 그림자 효과를 위한 전환 */
