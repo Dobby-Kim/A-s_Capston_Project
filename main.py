@@ -173,7 +173,8 @@ def run_temp_detect(spaceName, image, opt, dst_path):
 if __name__ == "__main__":
     space1 = "parksangjo"
     video_path1 = "./img/"+ space1 +".mp4"
-    
+    # Streaming Video Path: 
+    video_path1 = "rtsp://admin:ehduq214@172.20.10.4:554/stream1"
     space2 = "ebstudyroom1"
     video_path2 = "./img/"+ space2 +".mp4"
     
@@ -189,7 +190,7 @@ if __name__ == "__main__":
     opt = Namespace(**combined_opts)
     
     vidcap1 = cv2.VideoCapture(video_path1)
-    vidcap2 = cv2.VideoCapture(video_path2)
+    #vidcap2 = cv2.VideoCapture(video_path2)
     vidcap3 = cv2.VideoCapture(video_path3)
     
     count = 0
@@ -197,7 +198,7 @@ if __name__ == "__main__":
     while True:
         
         success1, image1 = vidcap1.read()
-        success2, image2 = vidcap2.read()
+     #   success2, image2 = vidcap2.read()
         success3, image3 = vidcap3.read()
         
         count += 1
@@ -208,11 +209,11 @@ if __name__ == "__main__":
         if count % frame_interval == 0:
             
             run_temp_detect(space1, image1, opt, space1)
-            run_temp_detect(space2, image2, opt, space2)
+      #      run_temp_detect(space2, image2, opt, space2)
             run_temp_detect(space3, image3, opt, space3)
             
             cv2.imshow('image1', cv2.resize(image1, (1280, 760)))
-            cv2.imshow('image2', cv2.resize(image2, (1280, 760)))
+       #     cv2.imshow('image2', cv2.resize(image2, (1280, 760)))
             cv2.imshow('image3', cv2.resize(image3, (1280, 760)))
             
             if cv2.waitKey(20) == 27:
