@@ -108,57 +108,6 @@ const Lounge = () => {
   
   const renderSeatRows = () => {
     const spaceName = getSpaceName();
-    /*const seatLayout = [
-      [
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '6', chairPosition: 'below' },
-        { id: '7', chairPosition: 'below' },
-        { id: '8', chairPosition: 'below' },
-        { id: '9', chairPosition: 'below' },
-        { id: '10', chairPosition: 'below' }],
-      [
-        { id: '5', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }],
-      [
-        { id: '4', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }],
-      [
-        { id: '3', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '12', chairPosition: 'up' },
-        { id: '14', chairPosition: 'up' },
-        { id: '16', chairPosition: 'up' },
-        { id: '18', chairPosition: 'up' }],
-      [
-        { id: '2', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '11', chairPosition: 'below' },
-        { id: '13', chairPosition: 'below' },
-        { id: '15', chairPosition: 'below' },
-        { id: '17', chairPosition: 'below' }],
-      [
-        { id: '1', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }]
-    ];*/
-
     let seatLayout;
 
     if (spaceName === 'parksangjo') {
@@ -417,8 +366,8 @@ const Lounge = () => {
 
           if (seat.merged) {
             return (
-              <div className={`seat-container ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
-                <div className={`seat ${seatClass} ${seat.num}`}>
+              <div className={`seat-container2 ${spaceName} ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
+                <div className={`seat ${spaceName} ${seat.num} ${seatClass}`}>
                 {seat.id.replace('seat', '')}
               </div>
               <SofaIcon className={`seat-icon sofa ${iconClass}`} />
