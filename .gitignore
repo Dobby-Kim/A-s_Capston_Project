@@ -1,7 +1,8 @@
-.DS_Store
 .env
-**/node_modules
-**/build
 *.pt
-**/__pycache__
-**/build
+.DS_Store
+**/runs/
+**/build/
+**/__pycache__/
+**/node_modules/
+*.pyc
