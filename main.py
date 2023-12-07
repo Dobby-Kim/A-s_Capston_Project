@@ -27,24 +27,17 @@ label_map = {
     64: "mouse",
     65: "remote",
     66: "keyboard",
-    67: "cell phone",
+    #67: "cell phone",
     73: "book"
 }
 label_list = list(label_map.keys())
 
-
-def main(original_data):
-    # matrix
-    H = np.array([[5.60419376e-01, 9.71581689e-01, -3.79450113e+02],
-        [-3.39450669e-02, 1.77097300e+00, -2.56173657e+02],
-        [-1.75642895e-04, 4.53427216e-03, 1.00000000e+00]])
-    
-    space_name = "parksangjo"
-    
-    # desk
-    # [x, y, width, height, direction of chair]
-    # direction = 1:Up, 2:Right, 3:Down, 4:Left
-    psj_lounge_desk = [
+""" 
+[x, y, width, height, direction of chair]
+direction = 1:Up, 2:Right, 3:Down, 4:Left 
+"""
+desks = {
+    'parksangjo' :[
         [-12, 262, 44, 53, 2],
         [-12, 209, 44, 52, 2],
         [-12, 156, 44, 52, 2],
@@ -63,100 +56,172 @@ def main(original_data):
         [217, 123, 67, 50, 1],
         [285, 174, 60, 50, 3],
         [285, 123, 60, 50, 1]
+    ],
+    'ebstudyroom1' : [
+        [0, 6, 150, 92, 4],
+        [150, 5, 215, 92, 2],
+        [0, 98, 150, 103, 4],
+        [150, 97, 215, 103, 2],
+        [0, 201, 150, 86, 4],
+        [150, 200, 215, 86, 2],
+        [0, 287, 150, 115, 4],
+        [150, 286, 215, 115, 2]
+    ],
+    'haedong':[
+        [0, 43, 138, 258, 2],
+        [145, 43, 300, 258, 4],
+        [456, 43, 301, 258, 2],
+        [767, 43, 209, 258, 4],
+        [148, 312, 122, 163, 1],
+        [270, 312, 125, 173, 1],
+        [396, 312, 135, 174, 1],
+        [530, 312, 125, 174, 1],
+        [655, 312, 122, 174, 1],
+        [777, 312, 114, 171, 1],
+        [148, 475, 122, 187, 3],
+        [270, 485, 125, 177, 3],
+        [395, 486, 135, 176, 3],
+        [530, 486, 125, 176, 3],
+        [655, 486, 122, 176, 3],
+        [777, 483, 114, 179, 3]
     ]
 
-    src_image_path = './yolov5/img/psj.jpeg' 
-    dst_image_path = './img/roomMap.png'
+}
+#Park Sang Jo Lounge
+H1 = np.array([[5.60419376e-01, 9.71581689e-01, -3.79450113e+02],
+            [-3.39450669e-02, 1.77097300e+00, -2.56173657e+02],
+            [-1.75642895e-04, 4.53427216e-03, 1.00000000e+00]])
+#Engineering Building Studyroom
+H2 = np.array([[ 1.37377152e+00,  2.34678778e+00, -1.46687226e+03],
+            [-3.12568851e-01,  2.52954456e+00, -4.11804536e+01],
+            [ 9.80578801e-04,  3.61712956e-03,  1.00000000e+00]])
+#Hae Dong Library
+H3 = np.array([[ 2.83839711e+00,  1.60482551e+00, -8.74082214e+02],
+            [ 6.33180983e-01,  9.25857095e+00, -4.27796845e+03],
+            [-7.09521713e-04,  8.18697677e-03,  1.00000000e+00]])
+
+mtrxs = {
+    'parksangjo' : H1,
+    'ebstudyroom1': H2,
+    'haedong' : H3 
+}
+
+def main(space_name,image,original_data,dst_image_name):
+    
+    # init settings
+    
+    
+    
 
     ###################################################################################################
 
-    # setting for detection
-    '''default_opts = parse_opt() # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
-    custom_opts = {'weights': 'yolov5x.pt', 'source': '0', 'classes': label_list}
-    combined_opts = vars(default_opts)
-    combined_opts.update(custom_opts)
-    opt = argparse.Namespace(**combined_opts)'''
+    # 1)settings for computation
+    # homogeneous matrix for each space; for view transformation
+    H = mtrxs[space_name]
+    # desk grid setting
+    desk = desks[space_name]
 
-
-    # 1) detection
-    #original_data = detection.process_detection(opt)
-
+    dst_image_path = './img/'+ dst_image_name +'.png'
     original_labels = [item[0] for item in original_data]
-
-    
-    # 2) coordiates transformation
-    #src = cv2.imread(src_image_path, -1)
+    src = image
     dst = cv2.imread(dst_image_path, -1)
 
-    src_shape = (1920, 1080) # fixed
+    src_shape = (src.shape[1], src.shape[0]) # fixed
     dst_shape = (dst.shape[1] , dst.shape[0])
+
+
+    # 2) coordiates transformation
 
     original_coordinates = np.array([[item[1], item[2]] for item in original_data])
     transformed_coordinates = coordinate_transform.transform_coordinates_normalized(original_coordinates, H, src_shape, dst_shape)
 
+    # 3) seat division by hard coded grid
+    divided = seat_division.process_seat_division(desk)
 
-    # 3) seat division
-    divided = seat_division.process_seat_division(psj_lounge_desk)
-
-    
-    # 4) seat occupation
-    space_init = seat_occupation.init_space(18)
-    detected_pixel = seat_occupation.prop_to_pixel(transformed_coordinates, dst.shape[1], dst.shape[0])
+    # 4) compute seat occupation
+    space_init = seat_occupation.init_space(len(desk))
+    detected_pixel = seat_occupation.prop_to_pixel(transformed_coordinates, dst_shape[0], dst_shape[1])
     occupation_final = seat_occupation.seat_occupation(divided, detected_pixel, original_labels, space_init)
 
+    # 5-0) this is for only debuging process: not in the data processing logic
     seat_occupation.display_seat_OpenCV(dst_image_path, divided, detected_pixel, occupation_final)
-    #coordinate_transform.display_transformed_coordinates_matplotlib(dst_image_path, transformed_coordinates, original_labels, label_map, dst_shape)
-    # 5) jsonify
-    # 아래의 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
+
+    
+    # 5) update database due to the occupation result
+    # 아래의 send_query_to_database 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
     updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
     print(seat_jsonify.list_db_js(space_name, occupation_final))
+    print(detected_pixel)
     
-    # return detected_pixel, original_labels, dst_shape
+
+
+# generate temperary img file to be used for yolo model
+def run_temp_detect(spaceName, image, opt, dst_path):
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_img_file:
+        cv2.imwrite(temp_img_file.name, image)
+    
+    opt.source = temp_img_file.name
+    original_data = detection.process_detection(opt)
+
+    
+    
+    main(spaceName, image, original_data, dst_path)
+    
+    os.unlink(temp_img_file.name)
 
 
 if __name__ == "__main__":
-    video_path = "./img/sangjotest.mp4"
-    frame_interval = 20
-
+    space1 = "parksangjo"
+    video_path1 = "./img/"+ space1 +".mp4"
+    
+    space2 = "ebstudyroom1"
+    video_path2 = "./img/"+ space2 +".mp4"
+    
+    space3 = "haedong"
+    video_path3 = "./img/"+ space3 +".mp4"
+    
+    frame_interval = 20 # ex) if video's frame rate = 20fps and frame_interval = 20 then get frame per 1 sec
+    
     default_opts = parse_opt()  # detection.py 의 parse_opt() 가져와 custom_opts 값으로 update
-    custom_opts = {'weights': 'yolov5x.pt', 'source': video_path, 'classes': label_list}
+    custom_opts = {'weights': 'yolov5x.pt', 'source': video_path1, 'classes': label_list}
     combined_opts = vars(default_opts)
     combined_opts.update(custom_opts)
     opt = Namespace(**combined_opts)
-
-    #original_data = detection.process_detection(opt)
-    #main(original_data)
     
-    vidcap = cv2.VideoCapture(video_path)
+    vidcap1 = cv2.VideoCapture(video_path1)
+    vidcap2 = cv2.VideoCapture(video_path2)
+    vidcap3 = cv2.VideoCapture(video_path3)
+    
     count = 0
 
-        
     while True:
         
-        success, image = vidcap.read()
-        count += 1
+        success1, image1 = vidcap1.read()
+        success2, image2 = vidcap2.read()
+        success3, image3 = vidcap3.read()
         
-        if not success:
+        count += 1
+    
+        if not success1:
             break
         
         if count % frame_interval == 0:
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_img_file:
-                cv2.imwrite(temp_img_file.name, image)
-        
-            opt.source = temp_img_file.name
-            original_data = detection.process_detection(opt)
-            # detected_pixel, original_labels, dst_shape
-            main(original_data)
             
-            cv2.imshow('image', cv2.resize(image, (1280, 760)))
+            run_temp_detect(space1, image1, opt, space1)
+            run_temp_detect(space2, image2, opt, space2)
+            run_temp_detect(space3, image3, opt, space3)
+            
+            cv2.imshow('image1', cv2.resize(image1, (1280, 760)))
+            cv2.imshow('image2', cv2.resize(image2, (1280, 760)))
+            cv2.imshow('image3', cv2.resize(image3, (1280, 760)))
             
             if cv2.waitKey(20) == 27:
                 break
             
-            os.unlink(temp_img_file.name)
-        
-
-    vidcap.release()
+    vidcap1.release()
+    vidcap2.release()
+    vidcap3.release()
+    
     cv2.destroyAllWindows()
     '''while True:
         start_time = time.time()
