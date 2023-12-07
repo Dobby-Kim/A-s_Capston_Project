@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { MdOutlineLocationOn } from "react-icons/md";
-import { GoPerson } from "react-icons/go";
 import "../style/lounges.css";
-import LoungeData from "../data/lounges.json";
-import LoungeData2 from "../data/lounges2.json";
 import { PiChairLight } from "react-icons/pi";
-// import Nav from "./nav"
 
 // Get Data
 async function fetchLoungesData() {

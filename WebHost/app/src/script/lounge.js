@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
-import { useLocation, useParams } from "react-router-dom";
-import placeData from "../data/places.json";
-import loungeData from "../data/lounges3.json"
-import placeData2 from "../data/places2.json"
+import loungeData from "../data/lounges.json"
 import "../style/lounge.css";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
