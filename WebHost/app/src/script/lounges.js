@@ -113,10 +113,12 @@ const Lounges = () => {
   };
 
   return (
-    <div className="waiting-list-interface">
-      {waitingLists.map((list, index) => (
-        <WaitingCard key={index} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
-      ))}
+    <div className ="waiting-list-interface">
+      <div className="card-container">
+        {waitingLists.map((list, index) => (
+          <WaitingCard key={index} info={list.info} onTakeSeat={()=>handleTakeSeat({spaceName:list.spaceName})} />
+        ))}
+      </div>
     </div>
   );
 };

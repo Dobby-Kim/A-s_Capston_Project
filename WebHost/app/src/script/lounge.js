@@ -401,11 +401,13 @@ const Lounge = () => {
 
   return (
     <div className={`wrapper ${isTabletOrMobile ? 'mobile' : 'desktop'} ${isPortrait ? 'portrait' : 'landscape'}`}>
-      <Header available={available} reserved={reserved} occupied={occupied} />
-      <StatusIndicator />
-      <section className="card">
-        {renderSeatRows()}
-      </section>
+      <div className="card-container">
+        <Header available={available} reserved={reserved} occupied={occupied} />
+        <StatusIndicator />
+        <section className="card">
+          {renderSeatRows()}
+        </section>
+      </div>
     </div>
   );
 };
