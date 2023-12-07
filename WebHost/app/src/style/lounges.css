@@ -11,7 +11,7 @@
 }
 
 .waiting-card {
-  width: 30rem;
+  width: 20rem;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -19,7 +19,7 @@
   background-color: white;
   padding: 20px;
   max-width: 60rem;
-  min-width: 20rem;
+  min-width: 10rem;
 }
 
 .waiting-card .location {
