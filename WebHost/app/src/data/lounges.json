@@ -1,24 +1,30 @@
 [
-    {
-      "ParkSangJo Lounge": {
-        "address": "Engineering Building 2, Floor 1",
-        "available": 3,
-        "total": 18
-      },
-      "Haedong 1": {
-        "address": "Engineering Building 1, Floor 1",
-        "available": 45,
-        "total": 48
-      },
-      "Haedong 2": {
-        "address": "Engineering Building 1, Floor B1",
-        "available": 42,
-        "total": 80
-      },
-      "Engineering Library": {
-        "address": "Engineering Building 2, Floor B1",
-        "available": 20,
-        "total": 70
-      }
-    }
-  ]
+  {
+    "space":"ebstudyroom1", 
+    "name":"Engineering Study Room 1",
+    "address":"Engineering No.2, Building No.26 B1 floor",
+    "available":8,
+    "total":8
+  },
+  {
+    "space":"ebstudyroom2", 
+    "name":"Engineering Study Room 2",
+    "address":"Engineering No.2, Building No.26 B1 floor",
+    "available":8,
+    "total":8
+  },
+  {
+    "space":"haedong", 
+    "name":"Hae Dong Library",
+    "address":"Engineering No.1, Building No.22 2nd floor",
+    "available":16,
+    "total":16
+  },
+  {
+    "space":"parksangjo", 
+    "name":"Park Sang Jo Lounge",
+    "address":"Engineering No.2, Building No.26 1st floor",
+    "available":18,
+    "total":18
+  }
+]

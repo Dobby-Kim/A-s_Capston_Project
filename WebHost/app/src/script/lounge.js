@@ -1,57 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
-import { useLocation } from "react-router-dom";
-import placeData from "../data/places.json";
-import loungeData from "../data/lounges2.json"
-import placeData2 from "../data/places2.json"
+import loungeData from "../data/lounges.json"
 import "../style/lounge.css";
-import { IoPersonOutline } from "react-icons/io5";
 import { LuMapPin } from "react-icons/lu";
 import { ReactComponent as SeatIcon } from '../img/seat.svg';
+import { ReactComponent as SofaIcon } from '../img/sofa.svg';
+import { PiChairLight } from "react-icons/pi";
 
-// Get space name
-const GetSpace = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const placeName = queryParams.get('placeName');
-  return placeName;
+const getSpaceName = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const spaceName = urlParams.get('spaceName');
+  return spaceName;
 }
 
 // Get one space data
-async function fetchLoungeData(placeName) {
-  const response = await fetch(`/data/getSeats?placeName=${encodeURIComponent(placeName)}`);
-  const data = response.json();
+async function fetchLoungeData(spaceName) {
+  const url = `/data/getSeats?spaceName=${spaceName}`
+  const response = await fetch(url);
+  console.log(response);
+  const data = await response.json();
   return data;
 }
 
 // Get space list Data
-const findAddress = async (name) => {
+async function findAddress(name) {
   const response = await fetch("/data/getSpace/");
-  const data = response.json();
+  const data = await response.json();
   const result = data.find(item => item.name === name);
   return result ? result.address : null;
 }
 
 // Just for offline testing
-const findAddTemp = (name) => {
-  const result = loungeData.find(item => item.name === name);
+const findAdd = (space) => {
+  const result = loungeData.find(item => item.space === space);
   return result ? result.address : null;
+}
+
+const findName = (space) => {
+  const result = loungeData.find(item => item.space === space);
+  return result ? result.name : null;
 }
 
 const Header = ({ available, reserved, occupied }) => {
   const totalSeats = available + reserved + occupied;
-  const temp = findAddTemp(GetSpace()); // This is from JSon
-  //const add = findAddress(GetSpace()); // This would be the actual
+  const space = getSpaceName();
+  const name = findName(space);
+  const add = findAdd(space);
+  console.log(space);
 
   return (
     <header className="header">
-      <h1>{GetSpace()}</h1>
+      <h1>{name}</h1>
       <div className="header-info">
         <LuMapPin className="icon map" size="21" />
-        <p className="num-text">{temp}</p>
+        <p className="num-text">{add}</p>
       </div>
       <div className="header-info seat-status">
-        <IoPersonOutline className="icon person" size="23" />
+        <PiChairLight className="icon person" size="23" />
         <span className="num-text">{`${available}/${totalSeats} `}</span>
       </div>
     </header>
@@ -78,159 +84,257 @@ const StatusIndicator = () => {
 };
 
 const Lounge = () => {
-  const [placeName, setPlaceName] = useState("");
   const [seatInfo, setSeatInfo] = useState({});
 
   const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
   const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
   const isPortrait = useMediaQuery({ orientation: 'portrait' });
 
-  /*const load = async (placeName) => {
-    try {
-      const response = await fetch(
-        `/seat?placeName=${encodeURIComponent(placeName)}`
-      );
-      const data = await response.json();
-      setSeatInfo(data);
-    } catch (error) {
-      console.error(error);
-      alert(`⚠️ 서버에서 데이터를 가져올 수 없어요! ⚠️\n${error.message}`);
-    }
-  };
-
-  const searchPlace = async (event) => {
-    event.preventDefault();
-    await load(placeName);
-  };
-
-  // JSON 파일에서 데이터 로드
-  useEffect(() => {
-    const loungeSeats = placeData[0]["parksangjo"];
-    setSeatInfo(loungeSeats);
-  }, []);*/
-
-
-  ///////// 여기 밑으로가 추가 사항입니다 //////// 
-
   // Server 에서 로드하기 - 박재윤
-  /*useEffect(() => {
-    const fetchData = async() => {
+  useEffect(() => {
+  
+    const fetchData = async () => {
       try {
-        const temp = await fetchLoungeData(GetSpace());
-        console.log(temp);
+        const fetchedData = await fetchLoungeData(getSpaceName());
+        console.log(fetchedData);
+        setSeatInfo(fetchedData);
       } catch (error) {
         console.error("Error fetching lounge data:", error);
       }
-    }
-    const data = fetchData();
-    const loungeSeats = data[0]; // If not working try this
-    setSeatInfo(data);
-  }, []);*/
+    };
 
-  // Json에서 로드하기 - 박재윤
-  useEffect(() => {
-    const loungeSeats = placeData2[0];
-    setSeatInfo(loungeSeats);
+    fetchData();
   }, []);
-
+  
   const renderSeatRows = () => {
-    /*const seatLayout = [
-      [{ id: 'empty' },
-       { id: 'empty' },
-       { id: 'seat6', chairPosition: 'below' },
-       { id: 'seat7', chairPosition: 'below' },
-       { id: 'seat8', chairPosition: 'below' },
-       { id: 'seat9', chairPosition: 'below' },
-       { id: 'seat10', chairPosition: 'below' }],
-      [{ id: 'seat5', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' }],
-      [{ id: 'seat4', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' }],
-       [{ id: 'seat3', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'seat12', chairPosition: 'up' },
-       { id: 'seat14', chairPosition: 'up' },
-       { id: 'seat16', chairPosition: 'up' },
-       { id: 'seat18', chairPosition: 'up' }],
-      [{ id: 'seat2', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'seat11', chairPosition: 'below' },
-       { id: 'seat13', chairPosition: 'below' },
-       { id: 'seat15', chairPosition: 'below' },
-       { id: 'seat17', chairPosition: 'below' }],
-      [{ id: 'seat1', chairPosition: 'right' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' },
-       { id: 'empty' }]
-    ];*/
+    const spaceName = getSpaceName();
+    let seatLayout;
 
-    const seatLayout2 = [
-      [
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '6', chairPosition: 'below' },
-        { id: '7', chairPosition: 'below' },
-        { id: '8', chairPosition: 'below' },
-        { id: '9', chairPosition: 'below' },
-        { id: '10', chairPosition: 'below' }],
-      [
-        { id: '5', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }],
-      [
-        { id: '4', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }],
-      [
-        { id: '3', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '12', chairPosition: 'up' },
-        { id: '14', chairPosition: 'up' },
-        { id: '16', chairPosition: 'up' },
-        { id: '18', chairPosition: 'up' }],
-      [
-        { id: '2', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: '11', chairPosition: 'below' },
-        { id: '13', chairPosition: 'below' },
-        { id: '15', chairPosition: 'below' },
-        { id: '17', chairPosition: 'below' }],
-      [
-        { id: '1', chairPosition: 'right' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' },
-        { id: 'empty' }]
-    ];
+    if (spaceName === 'parksangjo') {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '6', chairPosition: 'below' },
+          { id: '7', chairPosition: 'below' },
+          { id: '8', chairPosition: 'below' },
+          { id: '9', chairPosition: 'below' },
+          { id: '10', chairPosition: 'below' }],
+        [
+          { id: '5', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
+        [
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }],
+        [
+          { id: '3', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '12', chairPosition: 'up' },
+          { id: '14', chairPosition: 'up' },
+          { id: '16', chairPosition: 'up' },
+          { id: '18', chairPosition: 'up' }],
+        [
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '11', chairPosition: 'below' },
+          { id: '13', chairPosition: 'below' },
+          { id: '15', chairPosition: 'below' },
+          { id: '17', chairPosition: 'below' }],
+        [
+          { id: '1', chairPosition: 'right' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' }]
+      ];
+    } else if (spaceName === 'ebstudyroom1') {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'left' },
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left' },
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '5', chairPosition: 'left' },
+          { id: '6', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '7', chairPosition: 'left' },
+          { id: '8', chairPosition: 'right' },
+          { id: 'empty' }]
+      ];
+    } else if (spaceName === 'haedong') {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: 'empty' },],
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'right', merged: true, num: 'p42' },
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '2', chairPosition: 'left', merged: true, num: 'p4' },
+          { id: '2', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left', merged: true, num: 'p4'},
+          { id: '3', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },
+          { id: '4', chairPosition: 'left', merged: true, num: 'p4'},
+          { id: '4', chairPosition: 'right', merged: true, num: 'none'},
+          { id: 'empty' },
+          { id: 'empty' },],
 
-    return seatLayout2.map((row, rowIndex) => (
+            [
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' }],
+            [
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' }],
+          [
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: '5', chairPosition: 'up' },
+            { id: '6', chairPosition: 'up' },
+            { id: '7', chairPosition: 'up' },
+            { id: '8', chairPosition: 'up' },
+            { id: '9', chairPosition: 'up' },
+            { id: '10', chairPosition: 'up' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' },
+            { id: 'empty' }],
+            [
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: '11', chairPosition: 'below' },
+              { id: '12', chairPosition: 'below' },
+              { id: '13', chairPosition: 'below' },
+              { id: '14', chairPosition: 'below' },
+              { id: '15', chairPosition: 'below' },
+              { id: '16', chairPosition: 'below' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' },
+              { id: 'empty' }],
+
+              [
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' },
+                { id: 'empty' }],
+                [
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' },
+                  { id: 'empty' }],
+      ];
+    } else {
+      seatLayout = [
+        [
+          { id: 'empty' },
+          { id: '1', chairPosition: 'left' },
+          { id: '2', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '3', chairPosition: 'left' },
+          { id: '4', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '5', chairPosition: 'left' },
+          { id: '6', chairPosition: 'right' },
+          { id: 'empty' }],
+        [
+          { id: 'empty' },
+          { id: '7', chairPosition: 'left' },
+          { id: '8', chairPosition: 'right' },
+          { id: 'empty' }]
+      ];
+    }
+
+    return seatLayout.map((row, rowIndex) => (
       <div className="row" key={`row-${rowIndex}`} style={{ gap: '0.1rem' }}>
         {row.map((seat, seatIndex) => {
           if (seat.id === 'empty') {
@@ -240,6 +344,7 @@ const Lounge = () => {
           const seatStatus = seatInfo[seat.id];
           let seatClass = '';
           let iconClass = '';
+          let seatContent;
   
           switch (seatStatus) {
             case 0: // empty
@@ -257,6 +362,17 @@ const Lounge = () => {
             default: // unknown
               seatClass = 'unknown';
               iconClass = 'unknown';
+          }
+
+          if (seat.merged) {
+            return (
+              <div className={`seat-container2 ${spaceName} ${seatClass} ${seat.chairPosition} merged ${seat.num}`} key={`seat-${rowIndex}-${seatIndex}`}>
+                <div className={`seat ${spaceName} ${seat.num} ${seatClass}`}>
+                {seat.id.replace('seat', '')}
+              </div>
+              <SofaIcon className={`seat-icon sofa ${iconClass}`} />
+            </div>
+            );
           }
   
           return (
@@ -285,11 +401,13 @@ const Lounge = () => {
 
   return (
     <div className={`wrapper ${isTabletOrMobile ? 'mobile' : 'desktop'} ${isPortrait ? 'portrait' : 'landscape'}`}>
-      <Header available={available} reserved={reserved} occupied={occupied} />
-      <StatusIndicator />
-      <section className="card">
-        {renderSeatRows()}
-      </section>
+      <div className="card-container">
+        <Header available={available} reserved={reserved} occupied={occupied} />
+        <StatusIndicator />
+        <section className="card">
+          {renderSeatRows()}
+        </section>
+      </div>
     </div>
   );
 };

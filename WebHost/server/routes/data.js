@@ -61,7 +61,9 @@ router.get("/getSpace", async (req, res) => {
     //쿼리 생성
     const { spaceName } = req.query;
     const query = `
-          SELECT title, address, available_seat, total_seat 
+
+          SELECT name, title, address, available_seat, total_seat 
+
           FROM SpaceTable 
           `;
 
@@ -72,6 +74,7 @@ router.get("/getSpace", async (req, res) => {
     //return format {address: str, available: int, total: int}
     const spaceInfo = result.recordset.map((record) => {
       return {
+        space: record.name,
         name: record.title,
         address: record.address,
         available: record.available_seat,

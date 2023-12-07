@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: flex-start; 
   gap: 10px; 
+  border-radius: 15px;
 }
 
 .header-info {
@@ -16,7 +17,7 @@
 .header h1 {
   font-size: 2rem;
   margin-bottom: -1rem; 
-  width: 100%;
+  width: 100%;  
   text-align: center;
 }
 
@@ -68,16 +69,23 @@
   margin-right: 10px; 
 }
 
+.person-icon {
+  stroke-width: 0.3rem; 
+}
+
 .status-dot.available {
   background-color: #28a745; 
+  border: 1.5px solid #666; 
 }
 
 .status-dot.reserved {
   background-color: #ffc107; 
+  border: 1.5px solid #666; 
 }
 
 .status-dot.occupied {
   background-color: #dc3545;
+  border: 1.5px solid #666; 
 }
 
 .status-text {
@@ -103,13 +111,23 @@
   margin-bottom: 0.2rem;
 }
 
+.seat-container2.haedong {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  /* width: 5rem; 
+  height: 5rem;  */
+  
+}
+
 .seat-container {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  width: 2.1rem; 
-  height: 2.1rem; 
+  width: 2rem; 
+  height: 2rem; 
   margin: 0; 
 }
 
@@ -124,64 +142,110 @@
   cursor: pointer;
 }
 
-.seat-container.up .seat, .seat-container.below .seat {
-  width: 70%; 
-  height: 40%; 
+.seat.haedong.none {
+  display: none;
 }
 
-.seat-container.right .seat, .seat-container.left .seat {
-  width: 40%; 
-  height: 70%; 
+.seat-container2.haedong.p42 .seat.haedong.p42, .seat-container2.haedong.p4 .seat.haedong.p4 {
+  height: 45% !important;
+}
+
+.seat-container2.haedong.p2 .seat.haedong.p2 {
+  width: 1.25rem !important;
+}
+
+.seat-container2.haedong.p4 .seat.haedong.p4 {
+  width: 2.5rem !important;
+}
+
+.seat.p2 {
+  display: none;
 }
 
 .seat.reserved {
   background-color: #ffc107; 
+  border: 1.5px solid #666; 
 }
 
 .seat.occupied {
   background-color: #dc3545;
+  border: 1.5px solid #666; 
 }
 
 .seat.unknown {
   background-color: #d3d3d3; 
 }
 
+.sofa-icon {
+  fill: currentColor;
+}
+
 .seat-icon {
-  width: 1.3rem;
-  height: 1.3rem;
+  width: 1.7rem;
+  height: 1.7rem;
   fill: currentColor;
   stroke-width: 0.4vw;
 }
 
+.seat-icon.sofa {
+  width: 2rem;
+  height: 3rem;
+  fill: currentColor;
+  stroke-width: 0.4vw !important;
+}
+
+.seat-container2.below .seat-icon {
+  position: absolute;
+  bottom: -1.9rem; 
+  transform: rotate(180deg);
+}
+
+.seat-container2.right .seat-icon {
+  position: absolute;
+  right: -1.9rem; 
+  transform: rotate(90deg);
+}
+
+.seat-container2.left .seat-icon {
+  position: absolute;
+  left: -1.9rem; 
+  transform: rotate(270deg);
+}
+
+.seat-container2.up .seat-icon {
+  position: absolute;
+  top: -1.9rem; 
+}
+
 .seat-container.below .seat-icon {
   position: absolute;
-  bottom: -1.5rem; 
+  bottom: -1.9rem; 
   transform: rotate(180deg);
 }
 
 .seat-container.right .seat-icon {
   position: absolute;
-  right: -1.5rem; 
+  right: -1.9rem; 
   transform: rotate(90deg);
 }
 
 .seat-container.left .seat-icon {
   position: absolute;
-  left: -1.5rem; 
+  left: -1.9rem; 
   transform: rotate(270deg);
 }
 
 .seat-container.up .seat-icon {
   position: absolute;
-  top: -1.5rem; 
+  top: -1.9rem; 
 }
 
 .wrapper {
+  max-width: 60rem;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
   padding: 1vw;
-  min-width: 100%;
   min-height: 100vh;
   margin: auto;
   text-align: center;
@@ -190,14 +254,31 @@
 }
 
 .card {
+  /* 기존 스타일 유지 */
   margin-top: 2rem;
   margin-bottom: 1.5rem;
   margin-left: 2.5rem;
   margin-right: 2.5rem;
   max-width: 100%;
   padding: 20px;
-  position: relative; 
-  border: 2px solid #d6d6d6; 
+  position: relative;
+  border: 2px solid #d6d6d6;
+  border-radius: 15px;
+
+  /* 스크롤 기능 추가 */
+  overflow-x: auto; 
+  overflow-y: hidden; 
+}
+
+.card-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  border: none;
+  background-color: #f9f9f9;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 /* 반응형 사이즈) 태블릿 / 모바일 */
@@ -219,20 +300,30 @@
     margin-bottom: 1.5rem;
   }
 
-  .seat, .empty {
-    min-width: 1.8rem;
-    min-height: 1.8rem;
+  .seat {
+    min-width: 2rem;
+    min-height: 2rem;
     font-size: 0.8rem;
+  }
+
+  .empty {
+    min-width: 0.5rem;
+    min-height: 1rem;
+  }
+
+  .seat {
+    border: 1.5px solid #666; 
   }
 
   .card {
     margin: 1rem;
     padding: 15px;
+    background-color: white;
   }
 
   .wrapper {
-    min-width: 15rem;
-    min-height: 15rem;
+    max-width: 50rem;
+    max-height: 50rem;
   }
 }
 
@@ -258,10 +349,27 @@
     margin-bottom: 1.5rem;
   }
 
-  .seat, .empty {
+  .seat {
     min-width: 1.8rem;
     min-height: 1.8rem;
     font-size: 0.8rem;
+  }
+
+  .empty {
+    min-width: 0.5rem;
+    min-height: 1rem;
+  }
+
+  .seat {
+    border: 1.5px solid #666; 
+  }
+
+  .seat-container.haedong {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    margin: 0; 
   }
 
   .seat-container {
@@ -269,18 +377,21 @@
     position: relative;
     align-items: center;
     justify-content: center;
-    width: 2.5rem; 
-    height: 2.5rem; 
     margin: 0; 
   }
 
   .card {
     margin: 1rem;
     padding: 15px;
+    background-color: white;
   }
 
   .wrapper {
     min-width: 30rem;
     min-height: 30rem;
+  }
+  
+  .seat.none {
+    display: none;
   }
 }
