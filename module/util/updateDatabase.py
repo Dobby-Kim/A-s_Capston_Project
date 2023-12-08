@@ -4,10 +4,10 @@ import os
 
 load_dotenv()
 
+USERNAME = os.getenv('USER')
+PASSWORD = os.getenv('PASSWORD')
 SERVER = os.getenv('SERVER')
 DATABASE = os.getenv('DATABASE')
-USERNAME = os.getenv('USERNAME')
-PASSWORD = os.getenv('PASSWORD')
 
 seat_states = [
     (26010101, 1),
@@ -48,7 +48,8 @@ def generate_seat_states_list(space_name, seat_states):
         'parksangjo': 260101,
         'kingolounge': 261101,
         'ebstudyroom1': 261102,
-        'ebstudyroom2': 261103
+        'ebstudyroom2': 261103,
+        'haedong': 220201
     }
 
     # Get the spaceID for the given space name
@@ -108,8 +109,8 @@ def generate_update_query(space_name, unprocessed_seat_states):
     return query_seat_data_table, query_space_table
 
 
-def send_query_to_database(seat_states, spaceName):
-    query_seat_data_table, query_space_table = generate_update_query(seat_states, spaceName)
+def send_query_to_database(spaceName, seat_states):
+    query_seat_data_table, query_space_table = generate_update_query(spaceName, seat_states)
 
     server = SERVER # 예: 'example.database.windows.net'
     database = DATABASE  # 예: 'mydatabase'
