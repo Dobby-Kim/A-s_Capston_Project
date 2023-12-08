@@ -1,0 +1,213 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>박상조 라운지</title>
+    <style>
+      [class^="seat"] {
+        border: 1px solid #000;
+        padding: 10px;
+        display: inline-block;
+        margin: 5px;
+      }
+      .empty {
+        display: inline-block;
+        margin: 5px;
+        width: 40px; /* 좌석과 동일한 크기로 설정 */
+      }
+      .row {
+        margin-bottom: 5px;
+      }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      let formType = "login";
+      let currentPlaceName = ""; // 현재 placeName을 저장할 변수
+
+      const socket = io.connect("http://localhost:3000");
+
+      // fileChanged 이벤트 리스너 설정
+      socket.on("fileChanged", async () => {
+        console.log("File changed on server, fetching new data.");
+        if (currentPlaceName) {
+          // 서버에서 fileChanged 이벤트 수신 시 데이터 새로고침
+          await load(currentPlaceName);
+        }
+      });
+
+      function updateTime() {
+        const timeElement = document.querySelector("title time");
+        if (timeElement) {
+          const now = new Date();
+          timeElement.innerText = now.toLocaleTimeString(); // 원하는 시간 포맷으로 변경 가능
+        }
+      }
+
+      const load = async (placeName) => {
+        try {
+          const data = await fetch(
+            `/data/getSeats?placeName=${encodeURIComponent(placeName)}`
+          ).then((res) => res.json());
+          const title = document.querySelector(`.title`);
+          title.innerText = placeName;
+          updateTime();
+          // 각 매치 결과에 따라 적절한 클래스 추가
+          const seatInfo = data;
+          for (const seatNumber in seatInfo) {
+            const isAvailable = seatInfo[seatNumber];
+            const seatElement = document.querySelector(`.${seatNumber}`);
+
+            if (seatElement) {
+              seatElement.classList.add(isAvailable ? "valid_bg" : "using_bg");
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          alert("⚠️ 서버에서 데이터를 가져올 수 없어요! ⚠️\n" + error.message);
+        }
+      };
+
+      const searchPlace = async (e) => {
+        e.preventDefault();
+        const placeName = e.target.placeName.value;
+        //const password = e.target.password.value;
+        try {
+          document.querySelector(".login").classList.add("hide");
+          await load(placeName);
+        } catch (error) {
+          console.error(error);
+          alert(
+            `⚠️ 서버에서 ${placeName} 데이터를 가져올 수 없어요! ⚠️\n` +
+              error.message
+          );
+        }
+      };
+
+      const signup = async (e) => {
+        e.preventDefault();
+        const placeName = e.target.placeName.value;
+        const password = e.target.password.value;
+        const email = e.target.email.value;
+        if (!placeName || !password) {
+          alert("⚠️ 아이디와 비밀번호를 입력해주세요!");
+          return;
+        }
+        if (!email) {
+          alert("⚠️ 이메일을 입력해주세요!");
+          return;
+        }
+        try {
+          const data = await fetch("/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ placeName, password, email }),
+          });
+          if (data.status !== 201) {
+            alert("⚠️ 회원가입에 실패했어요!");
+            return;
+          }
+          alert("✅ 회원가입에 성공했어요!");
+        } catch (error) {
+          console.error(error);
+          alert("⚠️ 서버에서 데이터를 가져올 수 없어요!\n" + error.message);
+        }
+      };
+
+      const toggle = () => {
+        formType = formType === "login" ? "signup" : "login";
+        document.querySelector("button").innerText =
+          formType === "login" ? "검색" : "회원가입";
+        document.querySelector("a").innerText =
+          formType === "login" ? "회원가입 하기" : "검색 하기";
+        document.querySelector('input[name="email"]').type =
+          formType === "login" ? "hidden" : "email";
+      };
+    </script>
+  </head>
+  <body>
+    <div class="login">
+      <form
+        action="/placeCheck"
+        method="POST"
+        onsubmit="formType == 'login' ? searchPlace(event) : signup(event)"
+      >
+        <select name="placeName">
+          <option value="" selected disabled>==장소 선택==</option>
+          <option value="parksangjo">박상조라운지</option>
+          <option value="kingolaunge">킹고 라운지</option>
+          <option value="ebstudyroom1">공학관 스터디룸1</option>
+          <option value="ebstudyroom2">공학관 스터디룸2</option>
+        </select>
+        <button type="submit">검색</button>
+      </form>
+
+        
+      </form>
+    </div>
+    <div class="wrapper">
+      <h1 class="title">박상조 라운지</h1>
+      <h2 class="title time">현재 시각</h2>
+      <section class="card">
+        <div class="row">
+          <div class="empty"></div>
+          <div class="seat1">1</div>
+          <div class="seat2">2</div>
+          <div class="seat3">3</div>
+          <div class="seat4">4</div>
+          <div class="empty"></div>
+        </div>
+        <div class="row">
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="seat5">5</div>
+        </div>
+        <div class="row">
+          <div class="empty"></div>
+          <div class="seat11">11</div>
+          <div class="seat12">12</div>
+          <div class="empty"></div>
+          <div class="seat6">6</div>
+        </div>
+        <div class="row">
+          <div class="empty"></div>
+          <div class="seat13">13</div>
+          <div class="seat14">14</div>
+          <div class="empty"></div>
+          <div class="seat7">7</div>
+        </div>
+        <div class="row">
+          <div class="empty"></div>
+          <div class="seat15">15</div>
+          <div class="seat16">16</div>
+          <div class="empty"></div>
+          <div class="seat8">8</div>
+        </div>
+        <div class="row">
+          <div class="empty"></div>
+          <div class="seat17">17</div>
+          <div class="seat18">18</div>
+          <div class="empty"></div>
+          <div class="seat9">9</div>
+        </div>
+        <div class="row">
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="seat10">10</div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
