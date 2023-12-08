@@ -1,6 +1,6 @@
-# A-s_Capston_Project Repository Overview
+# Empty Seat? Team A's Project Repository Overview
 
-## A-s_Capston_Project Directory Structure
+## A-s_Capston_Project: 'Empty Seat?' Directory Structure
 
 > - **WebHost**
 >   - _app_
