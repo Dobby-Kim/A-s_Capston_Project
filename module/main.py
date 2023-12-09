@@ -150,7 +150,7 @@ def main(space_name,image,original_data,dst_image_name):
     
     # 5) update database due to the occupation result
     # 아래의 send_query_to_database 함수는 database에 등록된 컴퓨터의 ip에서만 돌아감.
-    updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
+    # updateDatabase.send_query_to_database(space_name, occupation_final) #updated at 23.11.21 by DoYeop
     print(seat_jsonify.list_db_js(space_name, occupation_final))
     print(detected_pixel)
     
@@ -169,6 +169,25 @@ def run_temp_detect(spaceName, image, opt, dst_path):
     main(spaceName, image, original_data, dst_path)
     
     os.unlink(temp_img_file.name)
+
+
+
+def draw_plot(time_list):
+    fig = plt.figure()
+
+    ax = fig.add_subplot()
+    ax.plot(range(len(time_list)), time_list, color='green', marker='o', linestyle='--', linewidth=2) 
+    ax.axhline(np.mean(time_list),label='Mean', color='red', linestyle='--') 
+
+    plt.xticks(range(len(time_list)))
+
+    plt.title('Data Processing Execution Time')
+    plt.xlabel('Number')
+    plt.ylabel('Execution Time')
+    plt.show()
+    plt.savefig('./img/execution_time.png')
+
+
 
 
 if __name__ == "__main__":
@@ -191,16 +210,17 @@ if __name__ == "__main__":
     opt = Namespace(**combined_opts)
     
     vidcap1 = cv2.VideoCapture(video_path1)
-    vidcap2 = cv2.VideoCapture(video_path2)
+    # vidcap2 = cv2.VideoCapture(video_path2)
     vidcap3 = cv2.VideoCapture(video_path3)
     
     count = 0
+    flag = 0
     time_list = []
 
     while True:
         
         success1, image1 = vidcap1.read()
-        success2, image2 = vidcap2.read()
+        # success2, image2 = vidcap2.read()
         success3, image3 = vidcap3.read()
         
         count += 1
@@ -210,32 +230,48 @@ if __name__ == "__main__":
         
         if count % frame_interval == 0:
 
-            # data processing 과정 시간 측정
-            start_time = time.time()
+            # 영상이 끝나 run_temp_detect 단계에서 에러로 종료되는 것을 막기 위해 try, except 추가
+            try :
+                # data processing 시간 측정
+                start_time = time.time()
+                
+                run_temp_detect(space1, image1, opt, space1)
+                # run_temp_detect(space2, image2, opt, space2)
+                run_temp_detect(space3, image3, opt, space3)
+                
+                cv2.imshow('image1', cv2.resize(image1, (1280, 760)))
+                # cv2.imshow('image2', cv2.resize(image2, (1280, 760)))
+                cv2.imshow('image3', cv2.resize(image3, (1280, 760)))
+                
+                if cv2.waitKey(20) == 27:
+                    break
+
+                end_time = time.time()
+                executed_time = end_time - start_time
+                time_list.append(executed_time)
+                print(f"Execution time: {executed_time} seconds")  
+                print(f"Average time: {np.mean(time_list)} seconds")  
             
-            run_temp_detect(space1, image1, opt, space1)
-            run_temp_detect(space2, image2, opt, space2)
-            run_temp_detect(space3, image3, opt, space3)
             
-            cv2.imshow('image1', cv2.resize(image1, (1280, 760)))
-            cv2.imshow('image2', cv2.resize(image2, (1280, 760)))
-            cv2.imshow('image3', cv2.resize(image3, (1280, 760)))
-            
-            if cv2.waitKey(20) == 27:
+            except:
+                draw_plot(time_list)
+
+                print(f"Every execution time: ", time_list)  
+                print(f"Average time: {np.mean(time_list)} seconds")  
+
                 break
 
-            end_time = time.time()
-            executed_time = end_time - start_time
-            time_list.append(executed_time)
-            print(f"Execution time: {executed_time} seconds")  
-            print(f"Average time: {np.mean(time_list)} seconds")  
-
             
+
+                    
     vidcap1.release()
-    vidcap2.release()
+    # vidcap2.release()
     vidcap3.release()
     
     cv2.destroyAllWindows()
+
+    draw_plot(time_list)
+
     '''while True:
         start_time = time.time()
         main()
