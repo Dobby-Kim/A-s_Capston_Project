@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
 import tempfile
+import time
 
 from argparse import Namespace
 from yolov5.detection import parse_opt
@@ -174,7 +175,7 @@ if __name__ == "__main__":
     space1 = "parksangjo"
     video_path1 = "./img/"+ space1 +".mp4"
     # Streaming Video Path: 
-    video_path1 = "rtsp://admin:ehduq214@172.20.10.4:554/stream1"
+    # video_path1 = "rtsp://admin:ehduq214@172.20.10.4:554/stream1"
     space2 = "ebstudyroom1"
     video_path2 = "./img/"+ space2 +".mp4"
     
@@ -194,6 +195,7 @@ if __name__ == "__main__":
     vidcap3 = cv2.VideoCapture(video_path3)
     
     count = 0
+    time_list = []
 
     while True:
         
@@ -207,6 +209,9 @@ if __name__ == "__main__":
             break
         
         if count % frame_interval == 0:
+
+            # data processing 과정 시간 측정
+            start_time = time.time()
             
             run_temp_detect(space1, image1, opt, space1)
             run_temp_detect(space2, image2, opt, space2)
@@ -218,6 +223,13 @@ if __name__ == "__main__":
             
             if cv2.waitKey(20) == 27:
                 break
+
+            end_time = time.time()
+            executed_time = end_time - start_time
+            time_list.append(executed_time)
+            print(f"Execution time: {executed_time} seconds")  
+            print(f"Average time: {np.mean(time_list)} seconds")  
+
             
     vidcap1.release()
     vidcap2.release()
