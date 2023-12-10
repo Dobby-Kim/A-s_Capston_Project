@@ -1,6 +1,6 @@
 # 🪑 Empty Seat? Team A's Project Repository Overview
 
-## A-s_Capston_Project: 'Empty Seat?' Directory Structure
+## A-s_Capstone_Project: 'Empty Seat?' Directory Structure
 
 > - **WebHost**
 >   - _app_
@@ -73,7 +73,7 @@ Each directory is structured to support the project's scalability and manageabil
 
 ---
 
-# Running the A-s_Capston_Project
+# Running the 'Empty Seat?'
 
 To get the A-s Capston Project up and running on your local machine, follow these steps:
 
